@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Countdown</string>
+
+    <string name="years">Years</string>
+    <string name="days">Days</string>
+    <string name="hours">Hours</string>
+    <string name="minutes">Minutes</string>
+    <string name="seconds">Seconds</string>
 </resources>
