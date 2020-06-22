@@ -8,6 +8,7 @@ import android.os.CountDownTimer
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.time.LocalDate
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +27,6 @@ class MainActivity : AppCompatActivity() {
         val FAB: FloatingActionButton = findViewById(R.id.floating_point)
 
         FAB.setOnClickListener {
-            val time = setCountdownTime()
             val date = setCountdownDate()
         }
 
@@ -42,32 +42,30 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-    private fun setCountdownDate(): Array<Int> {
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
+    private fun setCountdownDate() {
+        val now = Calendar.getInstance()
 
         val datePicker = DatePickerDialog(this, DatePickerDialog.OnDateSetListener
         { view, year, monthOfYear, dayOfMonth ->
-            Toast.makeText(this, """$dayOfMonth - ${monthOfYear + 1} - $year""", Toast.LENGTH_LONG).show() },
-            year, month, day)
+            val selectedDate = Calendar.getInstance()
+            selectedDate.set(Calendar.YEAR, year)
+            selectedDate.set(Calendar.MONTH, monthOfYear)
+            selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        },
+            now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
         datePicker.show()
-
-        return arrayOf(year, month, day)
     }
 
-    private fun setCountdownTime(): Array<Int> {
-        val c = Calendar.getInstance()
-        val hour = c.get(Calendar.YEAR)
-        val minute = c.get(Calendar.MONTH)
+    private fun setCountdownTime() {
+        val now = Calendar.getInstance()
 
         val timePicker = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-            Toast.makeText(this, """$hourOfDay - $minute""", Toast.LENGTH_LONG).show() },
-            hour, minute, false)
+            val selectedTime = Calendar.getInstance()
+            selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            selectedTime.set(Calendar.MINUTE, minute)
+        },
+            now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false)
         timePicker.show()
-
-        return arrayOf(hour, minute)
     }
 
 
