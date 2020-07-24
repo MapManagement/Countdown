@@ -8,10 +8,12 @@ import android.os.CountDownTimer
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import java.time.LocalDate
+import android.widget.DatePicker
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
+    var cal: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +30,9 @@ class MainActivity : AppCompatActivity() {
 
         FAB.setOnClickListener {
             val date = setCountdownDate()
+            Toast.makeText(this, date.toString(), Toast.LENGTH_SHORT).show()
+            val time = setCountdownTime()
+            Toast.makeText(this, time.toString(), Toast.LENGTH_SHORT).show()
         }
 
         object : CountDownTimer(10000, 1000){
@@ -43,9 +48,13 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setCountdownDate() {
-        val now = Calendar.getInstance()
+        val datePicker = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            cal.set(Calendar.YEAR, year)
+            cal.set(Calendar.MONTH, monthOfYear)
+            cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        }
 
-        val datePicker = DatePickerDialog(this, DatePickerDialog.OnDateSetListener
+        /*val datePicker = DatePickerDialog(this, DatePickerDialog.OnDateSetListener
         { view, year, monthOfYear, dayOfMonth ->
             val selectedDate = Calendar.getInstance()
             selectedDate.set(Calendar.YEAR, year)
@@ -53,19 +62,23 @@ class MainActivity : AppCompatActivity() {
             selectedDate.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         },
             now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))
-        datePicker.show()
+        datePicker.datePicker.minDate = 0
+        datePicker.show()*/
     }
 
     private fun setCountdownTime() {
-        val now = Calendar.getInstance()
+        val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+            cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
+            cal.set(Calendar.MINUTE, minute)
+        }
 
-        val timePicker = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+        /*val timePicker = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
             val selectedTime = Calendar.getInstance()
             selectedTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
             selectedTime.set(Calendar.MINUTE, minute)
         },
             now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false)
-        timePicker.show()
+        timePicker.show()*/
     }
 
 
