@@ -9,6 +9,11 @@ import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -49,21 +54,37 @@ class MainActivity : AppCompatActivity() {
         }.start()
     }
 
-    val datePicker = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+    private val datePicker = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, monthOfYear)
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
         setTimeTexts()
     }
 
-    val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+    private val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
         cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
         cal.set(Calendar.MINUTE, minute)
     }
 
     private fun setTimeTexts() {
-        val format = "HH:mm dd/MM/yyyy"
+        val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
-        yearsText.text = date.format(cal.time)
+        val chosenDateTime = cal.time
+        val currentDateTime = Calendar.getInstance().time
+
+        val formattedChosenDateTime = date.format(chosenDateTime)
+        val formattedCurrentDateTime = date.format(currentDateTime)
+
+        fun LocalDateTime.toMillis(zone: ZoneId = ZoneId.systemDefault()) = atZone(zone).toInstant().toEpochMilli()
+
+        val chosenSeconds: Long = LocalDateTime.parse(formattedChosenDateTime).toMillis() / 1000
+        val currentSeconds: Long = LocalDateTime.parse(formattedCurrentDateTime).toMillis() / 1000
+
+        println(chosenSeconds)
+        println(currentSeconds)
+
+        val sub = chosenSeconds - currentSeconds
+
+        println(sub)
     }
 }
