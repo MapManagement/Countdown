@@ -2,6 +2,7 @@ package com.example.countdown
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -22,14 +23,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //declaring variables that contain TextViews
-        val yearsText: TextView = findViewById(R.id.yearsText)
-        val daysText: TextView = findViewById(R.id.daysText)
-        val hoursText: TextView = findViewById(R.id.hoursText)
-        val minutesText: TextView = findViewById(R.id.minutesText)
-        val secondsText: TextView = findViewById(R.id.secondsText)
-
-
         val FAB: FloatingActionButton = findViewById(R.id.floating_point)
 
         FAB.setOnClickListener {
@@ -45,8 +38,23 @@ class MainActivity : AppCompatActivity() {
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, monthOfYear)
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+        startTimer()
+    }
+
+    private val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
+        cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
+        cal.set(Calendar.MINUTE, minute)
+    }
+
+    private fun startTimer() {
         val timePeriod = convertSeconds(getTimePeriod())
         setTexts(timePeriod)
+
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("chosenDateTime", SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY).format(cal.time))
+            commit()
+        }
 
         object : CountDownTimer((timePeriod[5] * 1000).toLong(), 1000){
             override fun onFinish() {
@@ -58,13 +66,6 @@ class MainActivity : AppCompatActivity() {
                 setTexts(newTimePeriod)
             }
         }.start()
-
-
-    }
-
-    private val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
-        cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
-        cal.set(Calendar.MINUTE, minute)
     }
 
     private fun getTimePeriod(): Long {
@@ -95,8 +96,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTexts(timePeriodArray: ArrayList<Int>) {
-        yearsText.text = timePeriodArray[0].toString() + "Years"
-        daysText.text = timePeriodArray[1].toString() + "Day)"
+        yearsText.text = timePeriodArray[0].toString() + " Years"
+        daysText.text = timePeriodArray[1].toString() + " Days"
         hoursText.text = timePeriodArray[2].toString() + "Hours"
         minutesText.text = timePeriodArray[3].toString() + "Minutes"
         secondsText.text = timePeriodArray[4].toString() + "Seconds"
