@@ -48,6 +48,18 @@ class MainActivity : AppCompatActivity() {
         val timePeriod = convertSeconds(getTimePeriod())
         setTexts(timePeriod)
 
+        object : CountDownTimer((timePeriod[5] * 1000).toLong(), 1000){
+            override fun onFinish() {
+                secondsText.text = "0 Seconds"
+            }
+
+            override fun onTick(p0: Long) {
+                val newTimePeriod = convertSeconds(getTimePeriod())
+                setTexts(newTimePeriod)
+            }
+        }.start()
+
+
     }
 
     private val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
@@ -79,14 +91,15 @@ class MainActivity : AppCompatActivity() {
         val minutes = ((((totalSeconds % 31536000) % 86400) % 3600) / 60).toInt()
         val seconds = ((((totalSeconds % 31536000) % 86400) % 3600) % 60).toInt()
 
-        return arrayListOf(years, days, hours, minutes, seconds)
+        return arrayListOf(years, days, hours, minutes, seconds, totalSeconds.toInt())
     }
 
     private fun setTexts(timePeriodArray: ArrayList<Int>) {
-        yearsText.text = timePeriodArray[0].toString() + "Year(s)"
-        daysText.text = timePeriodArray[1].toString() + "Day(s)"
-        hoursText.text = timePeriodArray[2].toString() + "Hour(s)"
-        minutesText.text = timePeriodArray[3].toString() + "Minute(s)"
-        secondsText.text = timePeriodArray[4].toString() + "Second(s)"
+        yearsText.text = timePeriodArray[0].toString() + "Years"
+        daysText.text = timePeriodArray[1].toString() + "Day)"
+        hoursText.text = timePeriodArray[2].toString() + "Hours"
+        minutesText.text = timePeriodArray[3].toString() + "Minutes"
+        secondsText.text = timePeriodArray[4].toString() + "Seconds"
     }
+
 }
