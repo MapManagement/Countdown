@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -38,24 +39,15 @@ class MainActivity : AppCompatActivity() {
             TimePickerDialog(this, timePicker, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
                     true).show()
         }
-
-        object : CountDownTimer(10000, 1000){
-            override fun onFinish() {
-                secondsText.text = "0 Seconds"
-            }
-
-            override fun onTick(p0: Long) {
-                val time = p0 / 1000
-                secondsText.text = "$time Second"
-            }
-        }.start()
     }
 
     private val datePicker = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, monthOfYear)
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        convertSeconds(getTimePeriod())
+        val timePeriod = convertSeconds(getTimePeriod())
+        setTexts(timePeriod)
+
     }
 
     private val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
@@ -86,12 +78,15 @@ class MainActivity : AppCompatActivity() {
         val hours = (((totalSeconds % 31536000) % 86400) / 3600).toInt()
         val minutes = ((((totalSeconds % 31536000) % 86400) % 3600) / 60).toInt()
         val seconds = ((((totalSeconds % 31536000) % 86400) % 3600) % 60).toInt()
-        println(years)
-        println(days)
-        println(hours)
-        println(minutes)
-        println(seconds)
 
         return arrayListOf(years, days, hours, minutes, seconds)
+    }
+
+    private fun setTexts(timePeriodArray: ArrayList<Int>) {
+        yearsText.text = timePeriodArray[0].toString() + "Year(s)"
+        daysText.text = timePeriodArray[1].toString() + "Day(s)"
+        hoursText.text = timePeriodArray[2].toString() + "Hour(s)"
+        minutesText.text = timePeriodArray[3].toString() + "Minute(s)"
+        secondsText.text = timePeriodArray[4].toString() + "Second(s)"
     }
 }
