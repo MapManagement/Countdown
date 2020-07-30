@@ -7,14 +7,11 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.TextView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -58,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, monthOfYear)
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        setTimeTexts()
+        convertSeconds(getTimePeriod())
     }
 
     private val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
@@ -66,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         cal.set(Calendar.MINUTE, minute)
     }
 
-    private fun setTimeTexts() {
+    private fun getTimePeriod(): Long {
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
         val chosenDateTime = cal.time
@@ -80,11 +77,21 @@ class MainActivity : AppCompatActivity() {
         val chosenSeconds: Long = LocalDateTime.parse(formattedChosenDateTime).toMillis() / 1000
         val currentSeconds: Long = LocalDateTime.parse(formattedCurrentDateTime).toMillis() / 1000
 
-        println(chosenSeconds)
-        println(currentSeconds)
+        return chosenSeconds - currentSeconds
+    }
 
-        val sub = chosenSeconds - currentSeconds
+    private fun convertSeconds(totalSeconds: Long): ArrayList<Int> {
+        val years = (totalSeconds / 31536000).toInt()
+        val days = ((totalSeconds % 31536000) / 86400).toInt()
+        val hours = (((totalSeconds % 31536000) % 86400) / 3600).toInt()
+        val minutes = ((((totalSeconds % 31536000) % 86400) % 3600) / 60).toInt()
+        val seconds = ((((totalSeconds % 31536000) % 86400) % 3600) % 60).toInt()
+        println(years)
+        println(days)
+        println(hours)
+        println(minutes)
+        println(seconds)
 
-        println(sub)
+        return arrayListOf(years, days, hours, minutes, seconds)
     }
 }
