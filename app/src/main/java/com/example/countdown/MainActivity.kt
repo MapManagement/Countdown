@@ -42,7 +42,6 @@ class MainActivity : AppCompatActivity() {
              val currentSeconds: Long = LocalDateTime.parse(formattedCurrentDateTime).toMillis() / 1000
 
              val timePeriod = convertSeconds(chosenSeconds - currentSeconds)
-             println(timePeriod)
              startTimer(timePeriod, chosenDateTime)
 
          }
@@ -62,10 +61,11 @@ class MainActivity : AppCompatActivity() {
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, monthOfYear)
         cal.set(Calendar.DAY_OF_MONTH, dayOfMonth)
-        val timePeriod = convertSeconds(getTimePeriod())
 
         val formattedChosenDateTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
                 .format(cal.time)
+        val timePeriod = convertSeconds(getTimePeriod(formattedChosenDateTime))
+
         startTimer(timePeriod, formattedChosenDateTime)
     }
 
@@ -76,8 +76,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?) {
         setTexts(timePeriod)
-
-        Toast.makeText(this, chosenDateTime, Toast.LENGTH_SHORT).show()
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
@@ -96,24 +94,22 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onTick(p0: Long) {
-                val newTimePeriod = convertSeconds(getTimePeriod())
+                val newTimePeriod = convertSeconds(getTimePeriod(chosenDateTime))
                 setTexts(newTimePeriod)
             }
         }.start()
     }
 
-    private fun getTimePeriod(): Long {
+    private fun getTimePeriod(chosenDateTime: String?): Long {
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
-        val chosenDateTime = cal.time
         val currentDateTime = Calendar.getInstance().time
 
-        val formattedChosenDateTime = date.format(chosenDateTime)
         val formattedCurrentDateTime = date.format(currentDateTime)
 
         fun LocalDateTime.toMillis(zone: ZoneId = ZoneId.systemDefault()) = atZone(zone).toInstant().toEpochMilli()
 
-        val chosenSeconds: Long = LocalDateTime.parse(formattedChosenDateTime).toMillis() / 1000
+        val chosenSeconds: Long = LocalDateTime.parse(chosenDateTime).toMillis() / 1000
         val currentSeconds: Long = LocalDateTime.parse(formattedCurrentDateTime).toMillis() / 1000
 
         return chosenSeconds - currentSeconds
