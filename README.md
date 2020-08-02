@@ -6,6 +6,6 @@ monhts, days, hours, minutes and seconds till the datetime is reached. When reac
 you will get a notification on your phone.
 
 # ToDos
-- [ ] keeping datetime when closing app
+- [x] keeping datetime when closing app
 - [ ] adding notification
 - [ ] customizable layout?
