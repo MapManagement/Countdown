@@ -3,14 +3,12 @@ package com.example.countdown
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
-import org.json.JSONObject
-import java.io.File
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -27,9 +25,6 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         val chosenDateTime = sharedPref.getString("chosenDateTime", "")
-
-        /*val jsonFileData = readJSON("data")
-        val chosenDateTime = jsonFileData.getString("chosenDateTime")*/
 
          if (chosenDateTime != "") {
 
@@ -83,11 +78,6 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
-        /*val jsonFileData = readJSON("data")
-        val newJsonData = jsonFileData.put("chosenDateTime", chosenDateTime.toString())
-        writeJSON("data", newJsonData)*/
-
-
         object : CountDownTimer((timePeriod[5] * 1000).toLong(), 1000){
             override fun onFinish() {
                 secondsText.text = "0 Seconds"
@@ -116,6 +106,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun convertSeconds(totalSeconds: Long): ArrayList<Int> {
+        if (totalSeconds < 31536000) {
+            yearsText.setTextColor(Color.parseColor("#e01c18"))
+            if (totalSeconds < 86400) {
+                daysText.setTextColor(Color.parseColor("#e01c18"))
+                if (totalSeconds < 3600) {
+                    hoursText.setTextColor(Color.parseColor("#e01c18"))
+                    if (totalSeconds < 60) {
+                        minutesText.setTextColor(Color.parseColor("#e01c18"))
+                    }
+                }
+            }
+        }
         val years = (totalSeconds / 31536000).toInt()
         val days = ((totalSeconds % 31536000) / 86400).toInt()
         val hours = (((totalSeconds % 31536000) % 86400) / 3600).toInt()
@@ -126,21 +128,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setTexts(timePeriodArray: ArrayList<Int>) {
-        yearsText.text = timePeriodArray[0].toString() + " Years"
-        daysText.text = timePeriodArray[1].toString() + " Days"
-        hoursText.text = timePeriodArray[2].toString() + " Hours"
-        minutesText.text = timePeriodArray[3].toString() + " Minutes"
-        secondsText.text = timePeriodArray[4].toString() + " Seconds"
-    }
-
-    private fun readJSON(fileName: String): JSONObject {
-        val jsonData = File("$fileName.json").readText(Charsets.UTF_8)
-        return JSONObject(jsonData)
-    }
-
-    private fun writeJSON(fileName: String, jsonObj: JSONObject) {
-        val file: File = File(applicationContext.filesDir, "$fileName.json")
-        file.writeText(jsonObj.toString())
+        yearsText.text = timePeriodArray[0].toString() + " YEARS"
+        daysText.text = timePeriodArray[1].toString() + " DAYS"
+        hoursText.text = timePeriodArray[2].toString() + " HOURS"
+        minutesText.text = timePeriodArray[3].toString() + " MINUTES"
+        secondsText.text = timePeriodArray[4].toString() + " SECONDS"
     }
 
 }

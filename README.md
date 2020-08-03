@@ -7,5 +7,6 @@ you will get a notification on your phone.
 
 # ToDos
 - [x] keeping datetime when closing app
+- [ ] fixing bug of resetting time when choosing a new date time
 - [ ] adding notification
 - [ ] customizable layout?
