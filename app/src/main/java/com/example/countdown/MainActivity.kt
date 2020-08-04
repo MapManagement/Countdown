@@ -70,6 +70,7 @@ class MainActivity : AppCompatActivity() {
 
         val timer = startTimer(timePeriod, formattedChosenDateTime)
         currentTimer = timer
+        colorTextsWhite()
         timer.start()
     }
 
@@ -146,6 +147,14 @@ class MainActivity : AppCompatActivity() {
         hoursText.text = timePeriodArray[2].toString() + " HOURS"
         minutesText.text = timePeriodArray[3].toString() + " MINUTES"
         secondsText.text = timePeriodArray[4].toString() + " SECONDS"
+    }
+
+    private fun colorTextsWhite() {
+        yearsText.setTextColor(Color.parseColor("#ffffff"))
+        daysText.setTextColor(Color.parseColor("#ffffff"))
+        hoursText.setTextColor(Color.parseColor("#ffffff"))
+        minutesText.setTextColor(Color.parseColor("#ffffff"))
+        secondsText.setTextColor(Color.parseColor("#ffffff"))
     }
 
 }
