@@ -7,6 +7,7 @@ import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.View
 import android.widget.Toast
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.activity_main.*
@@ -45,17 +46,21 @@ class MainActivity : AppCompatActivity() {
 
          }
 
-        val timeFAB: FloatingActionButton = findViewById(R.id.floating_point)
+        val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
+        val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
+        val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
 
-        timeFAB.setOnClickListener {
-            if (currentTimer != null) {
-                currentTimer?.cancel()
+        timeFAB.setOnClickListener{ chooseNewDateTime() }
+        colorFAB.setOnClickListener{}
+        openFAB.setOnClickListener {
+            if(timeFAB.visibility != View.VISIBLE) {
+                timeFAB.visibility = View.VISIBLE
+                colorFAB.visibility = View.VISIBLE
             }
-            DatePickerDialog(this, datePicker, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
-                    cal.get(Calendar.DAY_OF_MONTH)).show()
-
-            TimePickerDialog(this, timePicker, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
-                    true).show()
+            else {
+                timeFAB.visibility = View.INVISIBLE
+                colorFAB.visibility = View.INVISIBLE
+            }
         }
     }
 
@@ -155,6 +160,17 @@ class MainActivity : AppCompatActivity() {
         hoursText.setTextColor(Color.parseColor("#ffffff"))
         minutesText.setTextColor(Color.parseColor("#ffffff"))
         secondsText.setTextColor(Color.parseColor("#ffffff"))
+    }
+
+    private fun chooseNewDateTime() {
+        if (currentTimer != null) {
+            currentTimer?.cancel()
+        }
+        DatePickerDialog(this, datePicker, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)).show()
+
+        TimePickerDialog(this, timePicker, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
+            true).show()
     }
 
 }
