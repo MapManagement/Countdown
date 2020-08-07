@@ -4,18 +4,19 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.jaredrummler.android.colorpicker.ColorPickerDialog
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker
+import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
-import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
 
@@ -51,7 +52,7 @@ class MainActivity : AppCompatActivity() {
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
 
         timeFAB.setOnClickListener{ chooseNewDateTime() }
-        colorFAB.setOnClickListener{}
+        colorFAB.setOnClickListener{ colorPicker() }
         openFAB.setOnClickListener {
             if(timeFAB.visibility != View.VISIBLE) {
                 timeFAB.visibility = View.VISIBLE
@@ -172,5 +173,11 @@ class MainActivity : AppCompatActivity() {
         TimePickerDialog(this, timePicker, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
             true).show()
     }
+     private fun colorPicker() {
+         /*val colorPicker = ColorPicker(this@MainActivity, 100, 100, 100, 100)
+         colorPicker.show()*/
+         ColorPickerDialog.newBuilder().show(this);
+
+     }
 
 }
