@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
     var cal: Calendar = Calendar.getInstance()
     var currentTimer: CountDownTimer? = null
-    var currentColor: String = "#e01c18"
+    var currentColor: String? = "#e01c18"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +30,8 @@ class MainActivity : AppCompatActivity() {
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         val chosenDateTime = sharedPref.getString("chosenDateTime", "")
+        val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
+        changeViewColor(chosenColor)
 
          if (chosenDateTime != "") {
 
@@ -45,8 +47,9 @@ class MainActivity : AppCompatActivity() {
              val timer = startTimer(timePeriod, chosenDateTime)
              currentTimer = timer
              timer.start()
-
          }
+
+
 
         val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
         val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
@@ -179,18 +182,26 @@ class MainActivity : AppCompatActivity() {
          colorPicker.show()
          colorPicker.enableAutoClose()
          colorPicker.setCallback { color ->
-             changeViewColor(color)
+             val hexColor = java.lang.String.format("#%06X", 0xFFFFFF and color).toLowerCase()
+             changeViewColor(hexColor)
          }
      }
-    private fun changeViewColor(color: Int) {
-        currentColor = java.lang.String.format("#%06X", 0xFFFFFF and color).toLowerCase()
+    private fun changeViewColor(color: String?) {
+        print(color)
+        currentColor = color
+
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("chosenColor", color)
+            commit()
+        }
 
         val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
-        openFAB.backgroundTintList = ColorStateList.valueOf(color)
+        openFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color))
         val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
-        timeFAB.backgroundTintList = ColorStateList.valueOf(color + 75)
+        timeFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 75)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
-        colorFAB.backgroundTintList = ColorStateList.valueOf(color + 150)
+        colorFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 150)
     }
 
 }
