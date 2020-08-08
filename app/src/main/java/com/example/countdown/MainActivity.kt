@@ -3,25 +3,26 @@ package com.example.countdown
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.jaredrummler.android.colorpicker.ColorPickerDialog
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
-import com.jaredrummler.android.colorpicker.ColorPreferenceCompat
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
+
 class MainActivity : AppCompatActivity() {
 
     var cal: Calendar = Calendar.getInstance()
     var currentTimer: CountDownTimer? = null
+    var currentColor: String = "#e01c18"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -136,13 +137,13 @@ class MainActivity : AppCompatActivity() {
     private fun setTexts(timePeriodArray: ArrayList<Int>) {
         val totalSeconds = timePeriodArray[5]
         if (totalSeconds < 31536000) {
-            yearsText.setTextColor(Color.parseColor("#e01c18"))
+            yearsText.setTextColor(Color.parseColor(currentColor))
             if (totalSeconds < 86400) {
-                daysText.setTextColor(Color.parseColor("#e01c18"))
+                daysText.setTextColor(Color.parseColor(currentColor))
                 if (totalSeconds < 3600) {
-                    hoursText.setTextColor(Color.parseColor("#e01c18"))
+                    hoursText.setTextColor(Color.parseColor(currentColor))
                     if (totalSeconds < 60) {
-                        minutesText.setTextColor(Color.parseColor("#e01c18"))
+                        minutesText.setTextColor(Color.parseColor(currentColor))
                     }
                 }
             }
@@ -174,10 +175,22 @@ class MainActivity : AppCompatActivity() {
             true).show()
     }
      private fun colorPicker() {
-         /*val colorPicker = ColorPicker(this@MainActivity, 100, 100, 100, 100)
-         colorPicker.show()*/
-         ColorPickerDialog.newBuilder().show(this);
-
+         val colorPicker = ColorPicker(this, 100, 100, 100, 100)
+         colorPicker.show()
+         colorPicker.enableAutoClose()
+         colorPicker.setCallback { color ->
+             changeViewColor(color)
+         }
      }
+    private fun changeViewColor(color: Int) {
+        currentColor = java.lang.String.format("#%06X", 0xFFFFFF and color).toLowerCase()
+
+        val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
+        openFAB.backgroundTintList = ColorStateList.valueOf(color)
+        val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
+        timeFAB.backgroundTintList = ColorStateList.valueOf(color + 75)
+        val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+        colorFAB.backgroundTintList = ColorStateList.valueOf(color + 150)
+    }
 
 }
