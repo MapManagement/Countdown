@@ -100,7 +100,8 @@ class MainActivity : AppCompatActivity() {
 
         val timer = object : CountDownTimer((timePeriod[5] * 1000).toLong(), 1000){
             override fun onFinish() {
-                secondsText.text = "0 Seconds"
+                secondsText.text = "0 SECONDS"
+                secondsText.setTextColor(Color.parseColor(currentColor))
             }
 
             override fun onTick(p0: Long) {
