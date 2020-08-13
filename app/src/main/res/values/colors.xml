@@ -3,6 +3,7 @@
     <color name="red">#f40505</color>
     <color name="dark_red">#b50000</color>
     <color name="darker_red">#7f0000</color>
+    <color name="darkest_red">#5b0000</color>
 
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>

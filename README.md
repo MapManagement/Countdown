@@ -27,3 +27,4 @@ the color as an integer. As a result the user can customize the app as preferred
 - [ ] adding notification
 - [x] customizable layout?
 - [ ] adding stop watch mode
+- [ ] adding toolbar for mode transition
