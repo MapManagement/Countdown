@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -101,11 +102,14 @@ class MainActivity : AppCompatActivity() {
         val timer = object : CountDownTimer((timePeriod[5] * 1000).toLong(), 1000){
             override fun onFinish() {
                 secondsText.text = "0 SECONDS"
-                secondsText.setTextColor(Color.parseColor(currentColor))
+                setTexts(arrayListOf(0,0,0,0,0,0))
             }
 
             override fun onTick(p0: Long) {
                 val newTimePeriod = convertSeconds(getTimePeriod(chosenDateTime))
+                if (newTimePeriod[5] < 0) {
+                    onFinish()
+                }
                 setTexts(newTimePeriod)
             }
 
@@ -148,6 +152,9 @@ class MainActivity : AppCompatActivity() {
                     hoursText.setTextColor(Color.parseColor(currentColor))
                     if (totalSeconds < 60) {
                         minutesText.setTextColor(Color.parseColor(currentColor))
+                        if (totalSeconds < 1) {
+                            secondsText.setTextColor(Color.parseColor(currentColor))
+                        }
                     }
                 }
             }
