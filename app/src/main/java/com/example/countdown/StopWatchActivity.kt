@@ -5,8 +5,10 @@ import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.os.Handler
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
@@ -19,17 +21,17 @@ class StopWatchActivity : AppCompatActivity() {
 
     var currentSeconds: Int = 0
     var currentColor: String? = "#e01c18"
+    var startedAt: String? = ""
 
-    var isRunning: Boolean = false
+    var isStopped: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        var startedAt = sharedPref.getString("startedAt", "")
-        val running = sharedPref.getBoolean("running", false)
-        isRunning = running
+        startedAt = sharedPref.getString("startedAt", "")
+        isStopped = sharedPref.getBoolean("wasStopped", false)
 
 
         val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
@@ -37,10 +39,28 @@ class StopWatchActivity : AppCompatActivity() {
         val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
 
+        openFAB.setOnClickListener {
+            if(startFAB.visibility != View.VISIBLE) {
+                startFAB.visibility = View.VISIBLE
+                resetFAB.visibility = View.VISIBLE
+                colorFAB.visibility = View.VISIBLE
+            }
+            else {
+                startFAB.visibility = View.INVISIBLE
+                resetFAB.visibility = View.INVISIBLE
+                colorFAB.visibility = View.INVISIBLE
+            }
+        }
+
         startFAB.setOnClickListener {
-            if (running) {
-                val timePeriodinSeconds = getTimePeriod(startedAt)
-                startTimer(convertSeconds(timePeriodinSeconds), startedAt)
+            if (startedAt != "") {
+                if (isStopped) {
+                    val timePeriodinSeconds = getTimePeriod(startedAt)
+                    startTimer(convertSeconds(timePeriodinSeconds), startedAt)
+                }
+                else{
+                    isStopped = true
+                }
             }
             else {
                 val newStartedAt = setStartedAtDateTime()
@@ -48,9 +68,15 @@ class StopWatchActivity : AppCompatActivity() {
                 startTimer(convertSeconds(timePeriodinSeconds), newStartedAt)
             }
         }
-        resetFAB.setOnClickListener {}
-        openFAB.setOnClickListener {}
-        colorFAB.setOnClickListener {}
+
+        resetFAB.setOnClickListener {
+            isStopped = true
+            startedAt = ""
+        }
+
+        colorFAB.setOnClickListener {
+            colorPicker()
+        }
     }
 
     private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?) {
@@ -139,6 +165,16 @@ class StopWatchActivity : AppCompatActivity() {
             commit()
         }
         return formattedCurrentDateTime
+    }
+
+    private fun colorPicker() {
+        val colorPicker = ColorPicker(this, 100, 100, 100, 100)
+        colorPicker.show()
+        colorPicker.enableAutoClose()
+        colorPicker.setCallback { color ->
+            val hexColor = java.lang.String.format("#%06X", 0xFFFFFF and color).toLowerCase()
+            //changeViewColor(hexColor)
+        }
     }
 }
 
