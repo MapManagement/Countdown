@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.os.Handler
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +14,6 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
-import kotlin.collections.ArrayList
 
 
 class StopWatchActivity : AppCompatActivity() {
@@ -92,11 +90,13 @@ class StopWatchActivity : AppCompatActivity() {
         }
 
         val handler = Handler()
-        handler.post(Runnable {
-            val newTimePeriod = convertSeconds(getTimePeriod(startedAt))
-            setTexts(newTimePeriod)
+        handler.post(object: Runnable {
+            override fun run() {
+                val newTimePeriod = convertSeconds(getTimePeriod(startedAt))
+                setTexts(newTimePeriod)
+                handler.postDelayed(this, 1000)
+            }
         })
-
     }
 
     private fun setTexts(timePeriodArray: ArrayList<Int>) {
