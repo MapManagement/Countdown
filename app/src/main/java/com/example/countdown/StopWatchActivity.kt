@@ -1,6 +1,7 @@
 package com.example.countdown
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -72,6 +73,7 @@ class StopWatchActivity : AppCompatActivity() {
         resetFAB.setOnClickListener {
             isStopped = true
             startedAt = ""
+            colorTextsWhite()
         }
 
         colorFAB.setOnClickListener {
@@ -80,6 +82,7 @@ class StopWatchActivity : AppCompatActivity() {
     }
 
     private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?) {
+        colorTextsWhite()
         setTexts(timePeriod)
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
@@ -90,7 +93,8 @@ class StopWatchActivity : AppCompatActivity() {
 
         val handler = Handler()
         handler.post(Runnable {
-            getTimePeriod()
+            val newTimePeriod = convertSeconds(getTimePeriod(startedAt))
+            setTexts(newTimePeriod)
         })
 
     }
@@ -173,8 +177,28 @@ class StopWatchActivity : AppCompatActivity() {
         colorPicker.enableAutoClose()
         colorPicker.setCallback { color ->
             val hexColor = java.lang.String.format("#%06X", 0xFFFFFF and color).toLowerCase()
-            //changeViewColor(hexColor)
+            changeViewColor(hexColor)
         }
+    }
+
+    private fun changeViewColor(color: String?) {
+        print(color)
+        currentColor = color
+
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("chosenColor", color)
+            commit()
+        }
+
+        val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
+        openFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color))
+        val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
+        startFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 75)
+        val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
+        resetFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 150)
+        val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+        colorFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 225)
     }
 }
 
