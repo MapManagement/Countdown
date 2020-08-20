@@ -1,6 +1,7 @@
 package com.example.countdown
 
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -18,7 +19,6 @@ import java.util.*
 
 class StopWatchActivity : AppCompatActivity() {
 
-    var currentSeconds: Int = 0
     var currentColor: String? = "#e01c18"
     var startedAt: String? = ""
 
@@ -26,14 +26,27 @@ class StopWatchActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_stop_watch)
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         startedAt = sharedPref.getString("startedAt", "")
         isStopped = sharedPref.getBoolean("wasStopped", false)
 
+        bottom_navigation.setOnNavigationItemSelectedListener{
+            when(it.itemId) {
+                R.id.menu_datetimer -> {
+                    openActivity("datetime")
+                    true
+                }
+                R.id.menu_stop_watch -> {
+                    openActivity("stopwatch")
+                    true
+                }
+                else -> false
+            }
+        }
 
-        val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
+        val openFAB: FloatingActionButton = findViewById(R.id.floating_point_stop_watch)
         val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
         val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
@@ -191,7 +204,7 @@ class StopWatchActivity : AppCompatActivity() {
             commit()
         }
 
-        val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
+        val openFAB: FloatingActionButton = findViewById(R.id.floating_point_stop_watch)
         openFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color))
         val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
         startFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 75)
@@ -199,6 +212,16 @@ class StopWatchActivity : AppCompatActivity() {
         resetFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 150)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
         colorFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 225)
+    }
+
+    private fun openActivity(activityString: String) {
+        val intent = when(activityString) {
+            "datetime" -> Intent(this, MainActivity::class.java)
+            "stopwatch" -> Intent(this, StopWatchActivity::class.java)
+            else -> Intent(this, StopWatchActivity::class.java)
+        }
+        this.finish()
+        startActivity(intent)
     }
 }
 

@@ -8,11 +8,8 @@
         android:background="@color/black"
         tools:context=".MainActivity">
 
-
-
-
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floating_point"
+            android:id="@+id/floating_point_stop_watch"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_margin="16dp"
@@ -35,7 +32,7 @@
             app:maxImageSize="30dp"
             app:backgroundTint="@color/dark_red"
             app:fabSize="normal"
-            app:layout_constraintBottom_toTopOf="@id/floating_point"
+            app:layout_constraintBottom_toTopOf="@id/floating_point_stop_watch"
             app:layout_constraintEnd_toEndOf="parent"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -131,5 +128,20 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/minutesText"
             android:layout_marginTop="80dp"/>
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottom_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:itemBackground="@android:color/black"
+            app:itemIconSize="20dp"
+            app:itemIconTint="@color/white"
+            app:itemTextColor="@color/white"
+            app:menu="@menu/menu_bottom_navigation"
+            app:elevation="2dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

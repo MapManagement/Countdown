@@ -128,7 +128,6 @@
             app:itemIconTint="@color/white"
             app:itemTextColor="@color/white"
             app:menu="@menu/menu_bottom_navigation"
-            app:elevation="2dp"
-    />
+            app:elevation="2dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

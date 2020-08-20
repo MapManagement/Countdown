@@ -1,6 +1,5 @@
 package com.example.countdown
 
-import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -19,7 +18,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.reflect.KClass
 
 
 class MainActivity : AppCompatActivity() {
@@ -233,6 +231,7 @@ class MainActivity : AppCompatActivity() {
             "stopwatch" -> Intent(this, StopWatchActivity::class.java)
             else -> Intent(this, MainActivity::class.java)
         }
+        this.finish()
         startActivity(intent)
     }
 }
