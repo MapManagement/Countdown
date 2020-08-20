@@ -1,8 +1,10 @@
 package com.example.countdown
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
+import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
@@ -17,6 +19,7 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.reflect.KClass
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,7 +53,19 @@ class MainActivity : AppCompatActivity() {
              timer.start()
          }
 
-
+        bottom_navigation.setOnNavigationItemSelectedListener{
+            when(it.itemId) {
+                R.id.menu_datetimer -> {
+                    openActivity("datetime")
+                    true
+                }
+                R.id.menu_stop_watch -> {
+                    openActivity("stopwatch")
+                    true
+                }
+                else -> false
+            }
+        }
 
         val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
         val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
@@ -212,4 +227,12 @@ class MainActivity : AppCompatActivity() {
         colorFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 150)
     }
 
+    private fun openActivity(activityString: String) {
+        val intent = when(activityString) {
+            "datetime" -> Intent(this, MainActivity::class.java)
+            "stopwatch" -> Intent(this, StopWatchActivity::class.java)
+            else -> Intent(this, MainActivity::class.java)
+        }
+        startActivity(intent)
+    }
 }
