@@ -21,8 +21,8 @@ class StopWatchActivity : AppCompatActivity() {
 
     var currentColor: String? = "#e01c18"
     var startedAt: String? = ""
-
     var isStopped: Boolean = true
+    var seconds: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +31,19 @@ class StopWatchActivity : AppCompatActivity() {
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         startedAt = sharedPref.getString("startedAt", "")
         isStopped = sharedPref.getBoolean("wasStopped", false)
+        val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
+        changeViewColor(chosenColor)
+
+        if (startedAt != "") {
+            if (isStopped) {
+                isStopped = false
+                val timePeriodinSeconds = getTimePeriod(startedAt)
+                startTimer(convertSeconds(timePeriodinSeconds), startedAt)
+            }
+            else{
+                isStopped = true
+            }
+        }
 
         bottom_navigation.setOnNavigationItemSelectedListener{
             when(it.itemId) {
@@ -67,6 +80,7 @@ class StopWatchActivity : AppCompatActivity() {
         startFAB.setOnClickListener {
             if (startedAt != "") {
                 if (isStopped) {
+                    isStopped = false
                     val timePeriodinSeconds = getTimePeriod(startedAt)
                     startTimer(convertSeconds(timePeriodinSeconds), startedAt)
                 }
@@ -105,9 +119,12 @@ class StopWatchActivity : AppCompatActivity() {
         val handler = Handler()
         handler.post(object: Runnable {
             override fun run() {
-                val newTimePeriod = convertSeconds(getTimePeriod(startedAt))
-                setTexts(newTimePeriod)
-                handler.postDelayed(this, 1000)
+                if (!isStopped) {
+                    val newTimePeriod = convertSeconds(getTimePeriod(startedAt))
+                    setTexts(newTimePeriod)
+                    seconds++
+                    handler.postDelayed(this, 1000)
+                }
             }
         })
     }
@@ -173,14 +190,14 @@ class StopWatchActivity : AppCompatActivity() {
     private fun setStartedAtDateTime(): String {
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
-        val currentDateTime = Calendar.getInstance().time
+        val currentDateTime = Calendar.getInstance()
         val formattedCurrentDateTime = date.format(currentDateTime)
-
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("startedAt", formattedCurrentDateTime)
             commit()
         }
+        startedAt = formattedCurrentDateTime
         return formattedCurrentDateTime
     }
 
