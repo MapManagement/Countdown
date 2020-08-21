@@ -26,5 +26,7 @@ the color as an integer. As a result the user can customize the app as preferred
 - [x] fixing bug of not counting down when secconds are equal 0
 - [ ] adding notification
 - [x] customizable layout?
+    - [ ] more cutomizations
+    - [ ] including custom background pictures
 - [ ] adding stop watch mode
-- [ ] adding toolbar for mode transition
+- [x] adding toolbar for mode transition
