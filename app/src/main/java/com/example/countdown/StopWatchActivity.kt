@@ -85,10 +85,10 @@ class StopWatchActivity : AppCompatActivity() {
                         putBoolean("wasStopped", false)
                         commit()
                     }
-                    val timePeriodinSeconds = getTimePeriod(startedAt)
-                    startTimer(convertSeconds(timePeriodinSeconds), startedAt)
+                    val timePeriodInSeconds = getTimePeriod(startedAt)
+                    startTimer(convertSeconds(timePeriodInSeconds), startedAt)
                 }
-                else{
+                else {
                     isStopped = true
                     with(sharedPref.edit()) {
                         putBoolean("wasStopped", true)
@@ -97,9 +97,9 @@ class StopWatchActivity : AppCompatActivity() {
                 }
             }
             else {
-                val newStartedAt = setStartedAtDateTime()
-                val timePeriodinSeconds = getTimePeriod(newStartedAt)
-                startTimer(convertSeconds(timePeriodinSeconds), newStartedAt)
+                setStartedAtDateTime()
+                val timePeriodInSeconds = getTimePeriod(startedAt)
+                startTimer(convertSeconds(timePeriodInSeconds), startedAt)
             }
         }
 
@@ -107,6 +107,7 @@ class StopWatchActivity : AppCompatActivity() {
             isStopped = true
             startedAt = ""
             colorTextsWhite()
+            resetTexts()
         }
 
         colorFAB.setOnClickListener {
@@ -170,6 +171,14 @@ class StopWatchActivity : AppCompatActivity() {
         secondsText.setTextColor(Color.parseColor("#ffffff"))
     }
 
+    private fun resetTexts() {
+        yearsText.text = "0 YEARS"
+        daysText.text = "0 DAYS"
+        hoursText.text = "0 HOURS"
+        minutesText.text = "0 MINUTES"
+        secondsText.text = "0 SECONDS"
+    }
+
     private fun getTimePeriod(startedAt: String?): Long {
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
@@ -195,10 +204,10 @@ class StopWatchActivity : AppCompatActivity() {
         return arrayListOf(years, days, hours, minutes, seconds, totalSeconds.toInt())
     }
 
-    private fun setStartedAtDateTime(): String {
+    private fun setStartedAtDateTime(){
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
-        val currentDateTime = Calendar.getInstance()
+        val currentDateTime = Calendar.getInstance().time
         val formattedCurrentDateTime = date.format(currentDateTime)
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
@@ -207,7 +216,6 @@ class StopWatchActivity : AppCompatActivity() {
             commit()
         }
         startedAt = formattedCurrentDateTime
-        return formattedCurrentDateTime
     }
 
     private fun colorPicker() {
@@ -221,7 +229,6 @@ class StopWatchActivity : AppCompatActivity() {
     }
 
     private fun changeViewColor(color: String?) {
-        print(color)
         currentColor = color
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
