@@ -226,12 +226,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun openActivity(activityString: String) {
-        val intent = when(activityString) {
-            "datetime" -> Intent(this, MainActivity::class.java)
-            "stopwatch" -> Intent(this, StopWatchActivity::class.java)
-            else -> Intent(this, MainActivity::class.java)
+        if ( activityString == "stopwatch") {
+            val intent = Intent(this, StopWatchActivity::class.java)
+            this.finish()
+            startActivity(intent)
         }
-        this.finish()
-        startActivity(intent)
     }
 }

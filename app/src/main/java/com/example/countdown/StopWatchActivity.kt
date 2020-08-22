@@ -23,12 +23,12 @@ class StopWatchActivity : AppCompatActivity() {
     var startedAt: String? = ""
     var isStopped: Boolean = true
     var seconds: Int = 0
-    val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stop_watch)
 
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         startedAt = sharedPref.getString("startedAt", "")
         isStopped = sharedPref.getBoolean("wasStopped", false)
         val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
@@ -118,6 +118,7 @@ class StopWatchActivity : AppCompatActivity() {
         colorTextsWhite()
         setTexts(timePeriod)
 
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("chosenDateTime", chosenDateTime)
             commit()
@@ -199,6 +200,8 @@ class StopWatchActivity : AppCompatActivity() {
         val date = SimpleDateFormat(format, Locale.GERMANY)
         val currentDateTime = Calendar.getInstance()
         val formattedCurrentDateTime = date.format(currentDateTime)
+
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("startedAt", formattedCurrentDateTime)
             commit()
@@ -221,6 +224,7 @@ class StopWatchActivity : AppCompatActivity() {
         print(color)
         currentColor = color
 
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("chosenColor", color)
             commit()
