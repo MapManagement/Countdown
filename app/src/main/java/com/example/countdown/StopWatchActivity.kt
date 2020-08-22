@@ -97,6 +97,7 @@ class StopWatchActivity : AppCompatActivity() {
                 }
             }
             else {
+                isStopped = false
                 setStartedAtDateTime()
                 val timePeriodInSeconds = getTimePeriod(startedAt)
                 startTimer(convertSeconds(timePeriodInSeconds), startedAt)
