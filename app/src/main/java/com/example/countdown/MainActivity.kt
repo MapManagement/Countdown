@@ -30,27 +30,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         val chosenDateTime = sharedPref.getString("chosenDateTime", "")
         val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
         changeViewColor(chosenColor)
 
-         if (chosenDateTime != "") {
-
-             val formattedCurrentDateTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
+        // continues ongoing timer
+        if (chosenDateTime != "") {
+            val formattedCurrentDateTime = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.GERMANY)
                      .format(Calendar.getInstance().time)
 
-             fun LocalDateTime.toMillis(zone: ZoneId = ZoneId.systemDefault()) = atZone(zone).toInstant().toEpochMilli()
+            fun LocalDateTime.toMillis(zone: ZoneId = ZoneId.systemDefault()) = atZone(zone).toInstant().toEpochMilli()
 
-             val chosenSeconds: Long = LocalDateTime.parse(chosenDateTime).toMillis() / 1000
-             val currentSeconds: Long = LocalDateTime.parse(formattedCurrentDateTime).toMillis() / 1000
+            val chosenSeconds: Long = LocalDateTime.parse(chosenDateTime).toMillis() / 1000
+            val currentSeconds: Long = LocalDateTime.parse(formattedCurrentDateTime).toMillis() / 1000
 
-             val timePeriod = convertSeconds(chosenSeconds - currentSeconds)
-             val timer = startTimer(timePeriod, chosenDateTime)
-             currentTimer = timer
-             timer.start()
-         }
+            val timePeriod = convertSeconds(chosenSeconds - currentSeconds)
+            val timer = startTimer(timePeriod, chosenDateTime)
+            currentTimer = timer
+            timer.start()
+        }
 
+        // creating navigation between different modes
         bottom_navigation.setOnNavigationItemSelectedListener{
             when(it.itemId) {
                 R.id.menu_datetimer -> {
@@ -65,12 +67,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // FloatingActionButtons for mode navigation
         val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
         val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
 
+        // sets new date time
         timeFAB.setOnClickListener{ chooseNewDateTime() }
+        // opens color picker
         colorFAB.setOnClickListener{ colorPicker() }
+        // expands buttons fo navigation
         openFAB.setOnClickListener {
             if(timeFAB.visibility != View.VISIBLE) {
                 timeFAB.visibility = View.VISIBLE
@@ -83,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // datepicker dialog to choose new date, initializes timer
     private val datePicker = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, monthOfYear)
@@ -98,11 +105,13 @@ class MainActivity : AppCompatActivity() {
         timer.start()
     }
 
+    // timepicker dialog to choose new time
     private val timePicker = TimePickerDialog.OnTimeSetListener { view, hourOfDay, minute ->
         cal.set(Calendar.HOUR_OF_DAY, hourOfDay)
         cal.set(Calendar.MINUTE, minute)
     }
 
+    // function for time handling and textview changes
     private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?): CountDownTimer {
         setTexts(timePeriod)
 
@@ -130,6 +139,7 @@ class MainActivity : AppCompatActivity() {
         return timer
     }
 
+    // turns time between now and chosen date time into seconds
     private fun getTimePeriod(chosenDateTime: String?): Long {
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
@@ -145,6 +155,7 @@ class MainActivity : AppCompatActivity() {
         return chosenSeconds - currentSeconds
     }
 
+    // converts seconds into different time periods
     private fun convertSeconds(totalSeconds: Long): ArrayList<Int> {
         val years = (totalSeconds / 31536000).toInt()
         val days = ((totalSeconds % 31536000) / 86400).toInt()
@@ -155,6 +166,7 @@ class MainActivity : AppCompatActivity() {
         return arrayListOf(years, days, hours, minutes, seconds, totalSeconds.toInt())
     }
 
+    // changes color of textviews if time periods is equal to zero and sets time period
     private fun setTexts(timePeriodArray: ArrayList<Int>) {
         val totalSeconds = timePeriodArray[5]
         if (totalSeconds < 31536000) {
@@ -180,6 +192,7 @@ class MainActivity : AppCompatActivity() {
         secondsText.text = timePeriodArray[4].toString() + " SECONDS"
     }
 
+    // colors textviews white
     private fun colorTextsWhite() {
         yearsText.setTextColor(Color.parseColor("#ffffff"))
         daysText.setTextColor(Color.parseColor("#ffffff"))
@@ -188,6 +201,7 @@ class MainActivity : AppCompatActivity() {
         secondsText.setTextColor(Color.parseColor("#ffffff"))
     }
 
+    // opens up pickers to choose new date and time
     private fun chooseNewDateTime() {
         if (currentTimer != null) {
             currentTimer?.cancel()
@@ -198,15 +212,19 @@ class MainActivity : AppCompatActivity() {
         TimePickerDialog(this, timePicker, cal.get(Calendar.HOUR_OF_DAY), cal.get(Calendar.MINUTE),
             true).show()
     }
-     private fun colorPicker() {
-         val colorPicker = ColorPicker(this, 100, 100, 100, 100)
-         colorPicker.show()
-         colorPicker.enableAutoClose()
-         colorPicker.setCallback { color ->
-             val hexColor = java.lang.String.format("#%06X", 0xFFFFFF and color).toLowerCase()
-             changeViewColor(hexColor)
-         }
-     }
+
+    // opens color picker view for changing layout
+    private fun colorPicker() {
+        val colorPicker = ColorPicker(this, 100, 100, 100, 100)
+        colorPicker.show()
+        colorPicker.enableAutoClose()
+        colorPicker.setCallback { color ->
+            val hexColor = java.lang.String.format("#%06X", 0xFFFFFF and color).toLowerCase()
+            changeViewColor(hexColor)
+        }
+    }
+
+    // changes layout
     private fun changeViewColor(color: String?) {
         print(color)
         currentColor = color
@@ -225,6 +243,7 @@ class MainActivity : AppCompatActivity() {
         colorFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 150)
     }
 
+    // opens StopWatchActivity
     private fun openActivity(activityString: String) {
         if ( activityString == "stopwatch") {
             val intent = Intent(this, StopWatchActivity::class.java)

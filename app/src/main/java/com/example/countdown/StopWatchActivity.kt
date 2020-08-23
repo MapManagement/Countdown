@@ -28,23 +28,25 @@ class StopWatchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stop_watch)
 
+        // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         startedAt = sharedPref.getString("startedAt", "")
         isStopped = sharedPref.getBoolean("wasStopped", false)
         val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
         changeViewColor(chosenColor)
 
+        // stop watch continues
         if (startedAt != "") {
-            if (isStopped) {
-                isStopped = false
+            if (!isStopped) {
                 val timePeriodinSeconds = getTimePeriod(startedAt)
                 startTimer(convertSeconds(timePeriodinSeconds), startedAt)
             }
-            else{
+            else {
                 isStopped = true
             }
         }
 
+        // creating navigation between different modes
         bottom_navigation.setOnNavigationItemSelectedListener{
             when(it.itemId) {
                 R.id.menu_datetimer -> {
@@ -59,11 +61,13 @@ class StopWatchActivity : AppCompatActivity() {
             }
         }
 
+        // FloatingActionButtons for mode navigation
         val openFAB: FloatingActionButton = findViewById(R.id.floating_point_stop_watch)
         val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
         val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
 
+        // expands buttons fo navigation
         openFAB.setOnClickListener {
             if(startFAB.visibility != View.VISIBLE) {
                 startFAB.visibility = View.VISIBLE
@@ -77,6 +81,7 @@ class StopWatchActivity : AppCompatActivity() {
             }
         }
 
+        // starts or continues stop watch
         startFAB.setOnClickListener {
             if (startedAt != "") {
                 if (isStopped) {
@@ -104,6 +109,7 @@ class StopWatchActivity : AppCompatActivity() {
             }
         }
 
+        // resets stop watch
         resetFAB.setOnClickListener {
             isStopped = true
             startedAt = ""
@@ -111,11 +117,13 @@ class StopWatchActivity : AppCompatActivity() {
             resetTexts()
         }
 
+        // opens color picker
         colorFAB.setOnClickListener {
             colorPicker()
         }
     }
 
+    // function for time handling and textview changes
     private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?) {
         colorTextsWhite()
         setTexts(timePeriod)
@@ -139,6 +147,7 @@ class StopWatchActivity : AppCompatActivity() {
         })
     }
 
+    // changes color of textviews if time periods is equal to zero and sets time period
     private fun setTexts(timePeriodArray: ArrayList<Int>) {
         val totalSeconds = timePeriodArray[5]
         if (totalSeconds < 31536000) {
@@ -164,6 +173,7 @@ class StopWatchActivity : AppCompatActivity() {
         secondsText.text = timePeriodArray[4].toString() + " SECONDS"
     }
 
+    // colors textviews white
     private fun colorTextsWhite() {
         yearsText.setTextColor(Color.parseColor("#ffffff"))
         daysText.setTextColor(Color.parseColor("#ffffff"))
@@ -172,6 +182,7 @@ class StopWatchActivity : AppCompatActivity() {
         secondsText.setTextColor(Color.parseColor("#ffffff"))
     }
 
+    // resets textviews
     private fun resetTexts() {
         yearsText.text = "0 YEARS"
         daysText.text = "0 DAYS"
@@ -180,6 +191,7 @@ class StopWatchActivity : AppCompatActivity() {
         secondsText.text = "0 SECONDS"
     }
 
+    // turns time between now and start of stop watch into seconds
     private fun getTimePeriod(startedAt: String?): Long {
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
@@ -195,6 +207,7 @@ class StopWatchActivity : AppCompatActivity() {
         return currentSeconds - startedAtSeconds
     }
 
+    // converts seconds into different time periods
     private fun convertSeconds(totalSeconds: Long): ArrayList<Int> {
         val years = (totalSeconds / 31536000).toInt()
         val days = ((totalSeconds % 31536000) / 86400).toInt()
@@ -205,6 +218,7 @@ class StopWatchActivity : AppCompatActivity() {
         return arrayListOf(years, days, hours, minutes, seconds, totalSeconds.toInt())
     }
 
+    // sets new start of stop watch
     private fun setStartedAtDateTime(){
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
@@ -219,6 +233,7 @@ class StopWatchActivity : AppCompatActivity() {
         startedAt = formattedCurrentDateTime
     }
 
+    // opens color picker view for changing layout
     private fun colorPicker() {
         val colorPicker = ColorPicker(this, 100, 100, 100, 100)
         colorPicker.show()
@@ -229,6 +244,7 @@ class StopWatchActivity : AppCompatActivity() {
         }
     }
 
+    // changes layout
     private fun changeViewColor(color: String?) {
         currentColor = color
 
@@ -248,14 +264,13 @@ class StopWatchActivity : AppCompatActivity() {
         colorFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 225)
     }
 
+    // opens MainActivity
     private fun openActivity(activityString: String) {
-        val intent = when(activityString) {
-            "datetime" -> Intent(this, MainActivity::class.java)
-            "stopwatch" -> Intent(this, StopWatchActivity::class.java)
-            else -> Intent(this, StopWatchActivity::class.java)
+        if ( activityString == "stopwatch") {
+            val intent = Intent(this, MainActivity::class.java)
+            this.finish()
+            startActivity(intent)
         }
-        this.finish()
-        startActivity(intent)
     }
 }
 
