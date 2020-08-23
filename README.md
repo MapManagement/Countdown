@@ -28,5 +28,6 @@ the color as an integer. As a result the user can customize the app as preferred
 - [x] customizable layout?
     - [ ] more cutomizations
     - [ ] including custom background pictures
+    - [ ] customized layout should be used for all modes
 - [ ] adding stop watch mode
 - [x] adding toolbar for mode transition
