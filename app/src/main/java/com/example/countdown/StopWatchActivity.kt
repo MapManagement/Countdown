@@ -32,13 +32,14 @@ class StopWatchActivity : AppCompatActivity() {
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         startedAt = sharedPref.getString("startedAt", "")
         isStopped = sharedPref.getBoolean("wasStopped", false)
+        seconds = sharedPref.getInt("seconds", 0)
         val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
         changeViewColor(chosenColor)
 
         // stop watch continues
         if (startedAt != "") {
             if (!isStopped) {
-                val timePeriodinSeconds = getTimePeriod(startedAt)
+                val timePeriodinSeconds = getTimePeriod(startedAt, seconds)
                 startTimer(convertSeconds(timePeriodinSeconds), startedAt)
             }
             else {
@@ -90,13 +91,16 @@ class StopWatchActivity : AppCompatActivity() {
                         putBoolean("wasStopped", false)
                         commit()
                     }
-                    val timePeriodInSeconds = getTimePeriod(startedAt)
+                    setStartedAtDateTime()
+                    val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
                     startTimer(convertSeconds(timePeriodInSeconds), startedAt)
+                    seconds = 0
                 }
                 else {
                     isStopped = true
                     with(sharedPref.edit()) {
                         putBoolean("wasStopped", true)
+                        putInt("seconds", seconds)
                         commit()
                     }
                 }
@@ -104,7 +108,7 @@ class StopWatchActivity : AppCompatActivity() {
             else {
                 isStopped = false
                 setStartedAtDateTime()
-                val timePeriodInSeconds = getTimePeriod(startedAt)
+                val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
                 startTimer(convertSeconds(timePeriodInSeconds), startedAt)
             }
         }
@@ -138,7 +142,7 @@ class StopWatchActivity : AppCompatActivity() {
         handler.post(object: Runnable {
             override fun run() {
                 if (!isStopped) {
-                    val newTimePeriod = convertSeconds(getTimePeriod(startedAt))
+                    val newTimePeriod = convertSeconds(getTimePeriod(startedAt, seconds))
                     setTexts(newTimePeriod)
                     seconds++
                     handler.postDelayed(this, 1000)
@@ -192,7 +196,7 @@ class StopWatchActivity : AppCompatActivity() {
     }
 
     // turns time between now and start of stop watch into seconds
-    private fun getTimePeriod(startedAt: String?): Long {
+    private fun getTimePeriod(startedAt: String?, extraSeconds: Int): Long {
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
         val currentDateTime = Calendar.getInstance().time
@@ -204,7 +208,7 @@ class StopWatchActivity : AppCompatActivity() {
         val startedAtSeconds: Long = LocalDateTime.parse(startedAt).toMillis() / 1000
         val currentSeconds: Long = LocalDateTime.parse(formattedCurrentDateTime).toMillis() / 1000
 
-        return currentSeconds - startedAtSeconds
+        return currentSeconds - startedAtSeconds + extraSeconds
     }
 
     // converts seconds into different time periods
