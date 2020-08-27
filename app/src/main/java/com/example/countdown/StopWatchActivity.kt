@@ -31,20 +31,15 @@ class StopWatchActivity : AppCompatActivity() {
         // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         startedAt = sharedPref.getString("startedAt", "")
-        isStopped = sharedPref.getBoolean("wasStopped", false)
+        isStopped = sharedPref.getBoolean("wasStopped", true)
         seconds = sharedPref.getInt("seconds", 0)
         val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
         changeViewColor(chosenColor)
 
         // stop watch continues
         if (startedAt != "") {
-            if (!isStopped) {
-                val timePeriodinSeconds = getTimePeriod(startedAt, seconds)
-                startTimer(convertSeconds(timePeriodinSeconds), startedAt)
-            }
-            else {
-                isStopped = true
-            }
+            val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
+            startTimer(convertSeconds(timePeriodInSeconds), startedAt)
         }
 
         // creating navigation between different modes
@@ -92,8 +87,8 @@ class StopWatchActivity : AppCompatActivity() {
                         commit()
                     }
                     setStartedAtDateTime()
-                    val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
-                    startTimer(convertSeconds(timePeriodInSeconds), startedAt)
+                    //val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
+                    //startTimer(convertSeconds(timePeriodInSeconds), startedAt)
                 }
                 else {
                     isStopped = true
@@ -107,8 +102,8 @@ class StopWatchActivity : AppCompatActivity() {
             else {
                 isStopped = false
                 setStartedAtDateTime()
-                val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
-                startTimer(convertSeconds(timePeriodInSeconds), startedAt)
+                //val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
+                //startTimer(convertSeconds(timePeriodInSeconds), startedAt)
             }
         }
 
@@ -119,7 +114,6 @@ class StopWatchActivity : AppCompatActivity() {
             seconds = 0
             colorTextsWhite()
             resetTexts()
-            seconds = 0
         }
 
         // opens color picker
@@ -144,12 +138,12 @@ class StopWatchActivity : AppCompatActivity() {
         val handler = Handler()
         handler.post(object: Runnable {
             override fun run() {
-                if (!isStopped) {
-                    val newTimePeriod = convertSeconds(getTimePeriod(startedAt, leftoverSeconds))
-                    setTexts(newTimePeriod)
-                    seconds++
+                    if (!isStopped) {
+                        val newTimePeriod = convertSeconds(getTimePeriod(startedAt, leftoverSeconds))
+                        setTexts(newTimePeriod)
+                        seconds++
+                    }
                     handler.postDelayed(this, 1000)
-                }
             }
         })
     }
