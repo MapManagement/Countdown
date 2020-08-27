@@ -94,7 +94,6 @@ class StopWatchActivity : AppCompatActivity() {
                     setStartedAtDateTime()
                     val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
                     startTimer(convertSeconds(timePeriodInSeconds), startedAt)
-                    seconds = 0
                 }
                 else {
                     isStopped = true
@@ -117,8 +116,10 @@ class StopWatchActivity : AppCompatActivity() {
         resetFAB.setOnClickListener {
             isStopped = true
             startedAt = ""
+            seconds = 0
             colorTextsWhite()
             resetTexts()
+            seconds = 0
         }
 
         // opens color picker
@@ -131,6 +132,7 @@ class StopWatchActivity : AppCompatActivity() {
     private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?) {
         colorTextsWhite()
         setTexts(timePeriod)
+        val leftoverSeconds = seconds
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
@@ -138,11 +140,12 @@ class StopWatchActivity : AppCompatActivity() {
             commit()
         }
 
+
         val handler = Handler()
         handler.post(object: Runnable {
             override fun run() {
                 if (!isStopped) {
-                    val newTimePeriod = convertSeconds(getTimePeriod(startedAt, seconds))
+                    val newTimePeriod = convertSeconds(getTimePeriod(startedAt, leftoverSeconds))
                     setTexts(newTimePeriod)
                     seconds++
                     handler.postDelayed(this, 1000)
