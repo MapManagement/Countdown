@@ -22,7 +22,8 @@ class StopWatchActivity : AppCompatActivity() {
     var currentColor: String? = "#e01c18"
     var startedAt: String? = ""
     var isStopped: Boolean = true
-    var seconds: Int = 0
+    var oldSeconds: Int = 0
+    var newSeconds: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,13 +33,13 @@ class StopWatchActivity : AppCompatActivity() {
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         startedAt = sharedPref.getString("startedAt", "")
         isStopped = sharedPref.getBoolean("wasStopped", true)
-        seconds = sharedPref.getInt("seconds", 0)
+        oldSeconds = sharedPref.getInt("oldSeconds", 0)
         val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
         changeViewColor(chosenColor)
 
         // stop watch continues
         if (startedAt != "") {
-            val timePeriodInSeconds = getTimePeriod(startedAt, seconds)
+            val timePeriodInSeconds = getTimePeriod(startedAt, oldSeconds)
             startTimer(convertSeconds(timePeriodInSeconds), startedAt)
         }
 
@@ -81,6 +82,7 @@ class StopWatchActivity : AppCompatActivity() {
         startFAB.setOnClickListener {
             if (startedAt != "") {
                 if (isStopped) {
+                    println("Started: $oldSeconds")
                     isStopped = false
                     with(sharedPref.edit()) {
                         putBoolean("wasStopped", false)
@@ -91,12 +93,14 @@ class StopWatchActivity : AppCompatActivity() {
                     //startTimer(convertSeconds(timePeriodInSeconds), startedAt)
                 }
                 else {
+                    println("Stopped: $oldSeconds")
                     isStopped = true
                     with(sharedPref.edit()) {
                         putBoolean("wasStopped", true)
-                        putInt("seconds", seconds)
+                        putInt("oldSeconds", oldSeconds)
                         commit()
                     }
+                    oldSeconds = newSeconds
                 }
             }
             else {
@@ -111,7 +115,8 @@ class StopWatchActivity : AppCompatActivity() {
         resetFAB.setOnClickListener {
             isStopped = true
             startedAt = ""
-            seconds = 0
+            oldSeconds = 0
+            newSeconds = 0
             colorTextsWhite()
             resetTexts()
         }
@@ -126,8 +131,6 @@ class StopWatchActivity : AppCompatActivity() {
     private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?) {
         colorTextsWhite()
         setTexts(timePeriod)
-        val leftoverSeconds = seconds
-
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("chosenDateTime", chosenDateTime)
@@ -139,9 +142,9 @@ class StopWatchActivity : AppCompatActivity() {
         handler.post(object: Runnable {
             override fun run() {
                     if (!isStopped) {
-                        val newTimePeriod = convertSeconds(getTimePeriod(startedAt, leftoverSeconds))
+                        val newTimePeriod = convertSeconds(getTimePeriod(startedAt, oldSeconds))
                         setTexts(newTimePeriod)
-                        seconds++
+                        newSeconds++
                     }
                     handler.postDelayed(this, 1000)
             }
