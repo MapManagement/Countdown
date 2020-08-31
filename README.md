@@ -30,4 +30,5 @@ the color as an integer. As a result the user can customize the app as preferred
     - [ ] including custom background pictures
     - [ ] customized layout should be used for all modes
 - [ ] adding stop watch mode
+    - [ ] saving time properly if stop watch is stopped
 - [x] adding toolbar for mode transition
