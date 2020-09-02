@@ -33,8 +33,15 @@ class MainActivity : AppCompatActivity() {
         // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         val chosenDateTime = sharedPref.getString("chosenDateTime", "")
-        val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
-        changeViewColor(chosenColor)
+
+        val stopActivityColor = intent.getStringExtra("currentColor")
+        if (stopActivityColor == null) {
+            changeViewColor(sharedPref.getString("chosenColor", "#e01c18"))
+        }
+        else {
+            changeViewColor(stopActivityColor)
+        }
+
 
         // continues ongoing timer
         if (chosenDateTime != "") {
@@ -247,6 +254,7 @@ class MainActivity : AppCompatActivity() {
     private fun openActivity(activityString: String) {
         if ( activityString == "stopwatch") {
             val intent = Intent(this, StopWatchActivity::class.java)
+            intent.putExtra("currentColor", currentColor)
             this.finish()
             startActivity(intent)
         }
