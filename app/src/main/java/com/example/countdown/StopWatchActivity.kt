@@ -34,6 +34,7 @@ class StopWatchActivity : AppCompatActivity() {
         startedAt = sharedPref.getString("startedAt", "")
         isStopped = sharedPref.getBoolean("wasStopped", true)
         oldSeconds = sharedPref.getInt("oldSeconds", 0)
+        println("Opened: $oldSeconds")
         val chosenColor = sharedPref.getString("chosenColor", "#e01c18")
         changeViewColor(chosenColor)
 
@@ -95,12 +96,12 @@ class StopWatchActivity : AppCompatActivity() {
                 else {
                     println("Stopped: $oldSeconds")
                     isStopped = true
+                    oldSeconds = newSeconds
                     with(sharedPref.edit()) {
                         putBoolean("wasStopped", true)
                         putInt("oldSeconds", oldSeconds)
                         commit()
                     }
-                    oldSeconds = newSeconds
                 }
             }
             else {
@@ -270,7 +271,7 @@ class StopWatchActivity : AppCompatActivity() {
 
     // opens MainActivity
     private fun openActivity(activityString: String) {
-        if ( activityString == "stopwatch") {
+        if ( activityString == "datetime") {
             val intent = Intent(this, MainActivity::class.java)
             this.finish()
             startActivity(intent)
