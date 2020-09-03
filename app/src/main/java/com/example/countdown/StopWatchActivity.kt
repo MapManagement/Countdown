@@ -239,7 +239,7 @@ class StopWatchActivity : AppCompatActivity() {
 
     // opens color picker view for changing layout
     private fun colorPicker() {
-        val colorPicker = ColorPicker(this, 100, 100, 100, 100)
+        val colorPicker = ColorPicker(this, 100, 100, 100)
         colorPicker.show()
         colorPicker.enableAutoClose()
         colorPicker.setCallback { color ->
@@ -266,6 +266,8 @@ class StopWatchActivity : AppCompatActivity() {
         resetFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 150)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
         colorFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 225)
+
+        colorTextsWhite()
     }
 
     // opens MainActivity
