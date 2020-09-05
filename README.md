@@ -17,7 +17,7 @@ last time you pressed "Start". You are able to reset and stop the stop watch too
 I am using following dependency for my color picking dialog:\
 [android-material-color-picker-dialog](https://github.com/Pes8/android-material-color-picker-dialog) \
 I thought it would be easier if I just use an existing color picker instead of creating my own one.
-It simply just lets you choose a color by adjusting the different values (rgb and alpha) and returns
+It simply just lets you choose a color by adjusting the different values and returns
 the color as an integer. As a result the user can customize the app as preferred.
 
 # ToDos
@@ -25,10 +25,10 @@ the color as an integer. As a result the user can customize the app as preferred
 - [x] fixing bug of resetting time when choosing a new date time
 - [x] fixing bug of not counting down when secconds are equal 0
 - [ ] adding notification
-- [x] customizable layout?
+- [x] customizable layout
     - [ ] more cutomizations
     - [ ] including custom background pictures
-    - [ ] customized layout should be used for all modes
+    - [x] customized layout should be used for all modes
 - [ ] adding stop watch mode
     - [ ] saving time properly if stop watch is stopped
 - [x] adding toolbar for mode transition
