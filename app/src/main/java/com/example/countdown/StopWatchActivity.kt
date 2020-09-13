@@ -31,17 +31,19 @@ class StopWatchActivity : AppCompatActivity() {
 
         // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
-        startedAt = sharedPref.getString("startedAt", "")
         isStopped = sharedPref.getBoolean("wasStopped", true)
         oldSeconds = sharedPref.getInt("oldSeconds", 0)
+        if (!isStopped) { startedAt = sharedPref.getString("startedAt", "") }
         println("Opened: $oldSeconds")
+        println("Started at: $startedAt")
         changeViewColor(intent.getStringExtra("currentColor"))
 
         // stop watch continues
-        if (startedAt != "") {
-            val timePeriodInSeconds = getTimePeriod(startedAt, oldSeconds)
-            startTimer(convertSeconds(timePeriodInSeconds), startedAt)
+        if (startedAt == "") {
+            setStartedAtDateTime()
         }
+        val timePeriodInSeconds = getTimePeriod(startedAt, oldSeconds)
+        startTimer(convertSeconds(timePeriodInSeconds), startedAt)
 
         // creating navigation between different modes
         bottom_navigation.setOnNavigationItemSelectedListener{
@@ -95,7 +97,8 @@ class StopWatchActivity : AppCompatActivity() {
                 else {
                     println("Stopped: $oldSeconds")
                     isStopped = true
-                    oldSeconds = newSeconds
+                    oldSeconds += newSeconds
+                    newSeconds = 0
                     with(sharedPref.edit()) {
                         putBoolean("wasStopped", true)
                         putInt("oldSeconds", oldSeconds)
