@@ -34,8 +34,6 @@ class StopWatchActivity : AppCompatActivity() {
         isStopped = sharedPref.getBoolean("wasStopped", true)
         oldSeconds = sharedPref.getInt("oldSeconds", 0)
         if (!isStopped) { startedAt = sharedPref.getString("startedAt", "") }
-        println("Opened: $oldSeconds")
-        println("Started at: $startedAt")
         changeViewColor(intent.getStringExtra("currentColor"))
 
         // stop watch continues
@@ -84,7 +82,6 @@ class StopWatchActivity : AppCompatActivity() {
         startFAB.setOnClickListener {
             if (startedAt != "") {
                 if (isStopped) {
-                    println("Started: $oldSeconds")
                     isStopped = false
                     with(sharedPref.edit()) {
                         putBoolean("wasStopped", false)
@@ -95,7 +92,6 @@ class StopWatchActivity : AppCompatActivity() {
                     //startTimer(convertSeconds(timePeriodInSeconds), startedAt)
                 }
                 else {
-                    println("Stopped: $oldSeconds")
                     isStopped = true
                     oldSeconds += newSeconds
                     newSeconds = 0
