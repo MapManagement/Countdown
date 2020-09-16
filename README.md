@@ -1,6 +1,7 @@
 ![Logo](app/src/main/res/mipmap-hdpi/icon256.png)
 
 # Countdown
+Newest version [HERE](app/release) \
 At the moment Countdown will have two different modes to use:
 ## DateTime Reminder
 This mode only shows a timer running down until a specific datetime is reached. You simply just open
