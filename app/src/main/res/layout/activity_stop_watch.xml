@@ -12,8 +12,10 @@
             android:id="@+id/floating_point_stop_watch"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="50dp"
             android:src="@android:drawable/ic_menu_add"
+            android:layout_marginEnd="16dp"
 
             app:maxImageSize="30dp"
             app:backgroundTint="@color/red"
@@ -142,6 +144,7 @@
             app:itemIconTint="@color/white"
             app:itemTextColor="@color/white"
             app:menu="@menu/menu_bottom_navigation"
-            app:elevation="2dp"/>
+            app:elevation="2dp"
+            android:layout_marginBottom="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

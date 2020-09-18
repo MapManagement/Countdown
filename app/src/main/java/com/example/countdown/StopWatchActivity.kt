@@ -29,6 +29,8 @@ class StopWatchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stop_watch)
 
+        window.navigationBarColor = Color.BLACK
+
         // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         isStopped = sharedPref.getBoolean("wasStopped", true)
