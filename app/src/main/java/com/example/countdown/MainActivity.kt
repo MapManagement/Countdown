@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             timer.start()
         }
 
-        // creating navigation between different modes
+        /* creating navigation between different modes
         bottom_navigation.setOnNavigationItemSelectedListener{
             when(it.itemId) {
                 R.id.menu_datetimer -> {
@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 else -> false
             }
         }
+        */
 
         // FloatingActionButtons for mode navigation
         val openFAB: FloatingActionButton = findViewById(R.id.floating_point)

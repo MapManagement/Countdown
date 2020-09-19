@@ -54,7 +54,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         val timePeriodInSeconds = getTimePeriod(startedAt, oldSeconds)
         startTimer(convertSeconds(timePeriodInSeconds), startedAt)
 
-        // creating navigation between different modes
+        /* creating navigation between different modes
         bottom_navigation.setOnNavigationItemSelectedListener{
             when(it.itemId) {
                 R.id.menu_datetimer -> {
@@ -68,6 +68,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
                 else -> false
             }
         }
+        */
 
         // FloatingActionButtons for mode navigation
         val openFAB: FloatingActionButton = findViewById(R.id.floating_point_stop_watch)
@@ -152,7 +153,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
                 val distanceFloatX: Float = x_end- x_start
 
                 if (abs(distanceFloatX) > 200) {
-                    if (x_end <= x_start){
+                    if (x_end > x_start){
                         openActivity("datetime")
                     }
                 }

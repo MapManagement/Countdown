@@ -8,12 +8,24 @@
         android:background="@color/black"
         tools:context=".MainActivity">
 
+    <TextView
+            android:id="@+id/title_datetimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/datetimer_title"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/white"
+
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="10dp"/>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/floating_point"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="50dp"
             android:src="@android:drawable/ic_menu_add"
             android:layout_marginEnd="16dp"
 
@@ -63,7 +75,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="80dp"/>
+            android:layout_marginTop="120dp"/>
 
     <TextView
             android:id="@+id/daysText"
@@ -117,6 +129,7 @@
             app:layout_constraintTop_toBottomOf="@id/minutesText"
             android:layout_marginTop="80dp"/>
 
+    <!--
     <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation"
             android:layout_width="match_parent"
@@ -132,5 +145,6 @@
             app:menu="@menu/menu_bottom_navigation"
             app:elevation="2dp"
             android:layout_marginBottom="8dp"/>
+     -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
