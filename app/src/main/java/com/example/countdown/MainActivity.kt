@@ -8,8 +8,10 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
-import androidx.annotation.ColorInt
+import kotlin.math.abs
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
@@ -21,7 +23,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
+
+    lateinit var gestureListener: GestureDetector
+    var x_start: Float = 0.0f
+    var x_end: Float = 0.0f
 
     var cal: Calendar = Calendar.getInstance()
     var currentTimer: CountDownTimer? = null
@@ -30,6 +36,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        gestureListener = GestureDetector(this, this)
 
         window.navigationBarColor = Color.BLACK
 
@@ -97,6 +105,31 @@ class MainActivity : AppCompatActivity() {
                 colorFAB.visibility = View.INVISIBLE
             }
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        gestureListener.onTouchEvent(event)
+
+        when (event?.action) {
+            0 ->
+            {
+                x_start = event.x
+            }
+            1 ->
+            {
+                x_end = event.x
+
+                val distanceFloatX: Float = x_end- x_start
+
+                if (abs(distanceFloatX) > 200) {
+                    if (x_end <= x_start){
+                        openActivity("stopwatch")
+                    }
+                }
+            }
+
+        }
+        return super.onTouchEvent(event)
     }
 
     // datepicker dialog to choose new date, initializes timer
@@ -263,5 +296,33 @@ class MainActivity : AppCompatActivity() {
             this.finish()
             startActivity(intent)
         }
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun onLongPress(e: MotionEvent?) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

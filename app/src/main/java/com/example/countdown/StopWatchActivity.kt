@@ -6,6 +6,8 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
+import android.view.GestureDetector
+import android.view.MotionEvent
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -15,9 +17,14 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
+import kotlin.math.abs
 
 
-class StopWatchActivity : AppCompatActivity() {
+class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
+
+    lateinit var gestureListener: GestureDetector
+    var x_start: Float = 0.0f
+    var x_end: Float = 0.0f
 
     var currentColor: String? = "#e01c18"
     var startedAt: String? = ""
@@ -28,6 +35,8 @@ class StopWatchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stop_watch)
+
+        gestureListener = GestureDetector(this, this)
 
         window.navigationBarColor = Color.BLACK
 
@@ -126,6 +135,31 @@ class StopWatchActivity : AppCompatActivity() {
         colorFAB.setOnClickListener {
             colorPicker()
         }
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        gestureListener.onTouchEvent(event)
+
+        when (event?.action) {
+            0 ->
+            {
+                x_start = event.x
+            }
+            1 ->
+            {
+                x_end = event.x
+
+                val distanceFloatX: Float = x_end- x_start
+
+                if (abs(distanceFloatX) > 200) {
+                    if (x_end <= x_start){
+                        openActivity("datetime")
+                    }
+                }
+            }
+
+        }
+        return super.onTouchEvent(event)
     }
 
     // function for time handling and textview changes
@@ -279,6 +313,34 @@ class StopWatchActivity : AppCompatActivity() {
             this.finish()
             startActivity(intent)
         }
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
+    }
+
+    override fun onLongPress(e: MotionEvent?) {
+        //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
 
