@@ -11,6 +11,7 @@ import android.os.CountDownTimer
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AnimationUtils
 import kotlin.math.abs
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -126,11 +127,17 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
 
                     if (y_end > y_start) {
+                        val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
+                        timeFAB.startAnimation(animation)
                         timeFAB.visibility = View.INVISIBLE
+                        colorFAB.startAnimation(animation)
                         colorFAB.visibility = View.INVISIBLE
                     }
                     else if (y_end < y_start) {
+                        val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
+                        timeFAB.startAnimation(animation)
                         timeFAB.visibility = View.VISIBLE
+                        colorFAB.startAnimation(animation)
                         colorFAB.visibility = View.VISIBLE
                     }
                 }

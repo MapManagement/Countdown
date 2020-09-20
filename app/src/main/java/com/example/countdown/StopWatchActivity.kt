@@ -9,6 +9,7 @@ import android.os.Handler
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
@@ -153,13 +154,21 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
                     val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
 
                     if (y_end > y_start) {
+                        val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
+                        startFAB.startAnimation(animation)
                         startFAB.visibility = View.INVISIBLE
+                        resetFAB.startAnimation(animation)
                         resetFAB.visibility = View.INVISIBLE
+                        colorFAB.startAnimation(animation)
                         colorFAB.visibility = View.INVISIBLE
                     }
                     else if (y_end < y_start) {
+                        val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
+                        startFAB.startAnimation(animation)
                         startFAB.visibility = View.VISIBLE
+                        resetFAB.startAnimation(animation)
                         resetFAB.visibility = View.VISIBLE
+                        colorFAB.startAnimation(animation)
                         colorFAB.visibility = View.VISIBLE
                     }
                 }

@@ -7,7 +7,7 @@
     <string name="minutes">MINUTES</string>
     <string name="seconds">SECONDS</string>
 
-    <string name="datetimer_title">DATIMER</string>
+    <string name="datetimer_title">DATETIMER</string>
     <string name="stopwatch_title">STOPWATCH</string>
 
 </resources>
