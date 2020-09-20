@@ -28,6 +28,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     lateinit var gestureListener: GestureDetector
     var x_start: Float = 0.0f
     var x_end: Float = 0.0f
+    var y_start: Float = 0.0f
+    var y_end: Float = 0.0f
 
     var cal: Calendar = Calendar.getInstance()
     var currentTimer: CountDownTimer? = null
@@ -87,7 +89,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         */
 
         // FloatingActionButtons for mode navigation
-        val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
         val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
 
@@ -96,16 +97,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         // opens color picker
         colorFAB.setOnClickListener{ colorPicker() }
         // expands buttons fo navigation
-        openFAB.setOnClickListener {
-            if(timeFAB.visibility != View.VISIBLE) {
-                timeFAB.visibility = View.VISIBLE
-                colorFAB.visibility = View.VISIBLE
-            }
-            else {
-                timeFAB.visibility = View.INVISIBLE
-                colorFAB.visibility = View.INVISIBLE
-            }
-        }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -115,16 +106,32 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             0 ->
             {
                 x_start = event.x
+                y_start = event.y
             }
             1 ->
             {
                 x_end = event.x
+                y_end = event.y
 
                 val distanceFloatX: Float = x_end- x_start
+                val distanceFloatY: Float = y_end - y_start
 
                 if (abs(distanceFloatX) > 200) {
                     if (x_end <= x_start){
                         openActivity("stopwatch")
+                    }
+                }
+                else if (abs(distanceFloatY) > 300) {
+                    val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
+                    val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+
+                    if (y_end > y_start) {
+                        timeFAB.visibility = View.INVISIBLE
+                        colorFAB.visibility = View.INVISIBLE
+                    }
+                    else if (y_end < y_start) {
+                        timeFAB.visibility = View.VISIBLE
+                        colorFAB.visibility = View.VISIBLE
                     }
                 }
             }
@@ -279,12 +286,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             commit()
         }
 
-        val openFAB: FloatingActionButton = findViewById(R.id.floating_point)
-        openFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color))
         val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
-        timeFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 75)
+        timeFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color))
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
-        colorFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 150)
+        colorFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 75)
 
         colorTextsWhite()
     }

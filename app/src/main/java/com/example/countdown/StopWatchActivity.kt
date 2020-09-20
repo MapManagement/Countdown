@@ -25,6 +25,8 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
     lateinit var gestureListener: GestureDetector
     var x_start: Float = 0.0f
     var x_end: Float = 0.0f
+    var y_start: Float = 0.0f
+    var y_end: Float = 0.0f
 
     var currentColor: String? = "#e01c18"
     var startedAt: String? = ""
@@ -71,24 +73,9 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         */
 
         // FloatingActionButtons for mode navigation
-        val openFAB: FloatingActionButton = findViewById(R.id.floating_point_stop_watch)
         val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
         val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
-
-        // expands buttons fo navigation
-        openFAB.setOnClickListener {
-            if(startFAB.visibility != View.VISIBLE) {
-                startFAB.visibility = View.VISIBLE
-                resetFAB.visibility = View.VISIBLE
-                colorFAB.visibility = View.VISIBLE
-            }
-            else {
-                startFAB.visibility = View.INVISIBLE
-                resetFAB.visibility = View.INVISIBLE
-                colorFAB.visibility = View.INVISIBLE
-            }
-        }
 
         // starts or continues stop watch
         startFAB.setOnClickListener {
@@ -145,16 +132,35 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
             0 ->
             {
                 x_start = event.x
+                y_start = event.y
             }
             1 ->
             {
                 x_end = event.x
+                y_end = event.y
 
                 val distanceFloatX: Float = x_end- x_start
+                val distanceFloatY: Float = y_end - y_start
 
                 if (abs(distanceFloatX) > 200) {
-                    if (x_end > x_start){
+                    if (x_end >= x_start){
                         openActivity("datetime")
+                    }
+                }
+                else if (abs(distanceFloatY) > 300) {
+                    val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
+                    val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
+                    val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+
+                    if (y_end > y_start) {
+                        startFAB.visibility = View.INVISIBLE
+                        resetFAB.visibility = View.INVISIBLE
+                        colorFAB.visibility = View.INVISIBLE
+                    }
+                    else if (y_end < y_start) {
+                        startFAB.visibility = View.VISIBLE
+                        resetFAB.visibility = View.VISIBLE
+                        colorFAB.visibility = View.VISIBLE
                     }
                 }
             }
@@ -294,14 +300,12 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
             commit()
         }
 
-        val openFAB: FloatingActionButton = findViewById(R.id.floating_point_stop_watch)
-        openFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color))
         val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
-        startFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 75)
+        startFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color))
         val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
-        resetFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 150)
+        resetFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 75)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
-        colorFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 225)
+        colorFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 150)
 
         colorTextsWhite()
     }
