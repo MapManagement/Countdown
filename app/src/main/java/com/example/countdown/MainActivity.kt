@@ -12,6 +12,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.TextView
 import kotlin.math.abs
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -117,7 +118,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 val distanceFloatX: Float = x_end- x_start
                 val distanceFloatY: Float = y_end - y_start
 
-                if (abs(distanceFloatX) > 200) {
+                if (abs(distanceFloatX) > 300) {
                     if (x_end <= x_start){
                         openActivity("stopwatch")
                     }
@@ -297,6 +298,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         timeFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color))
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
         colorFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 75)
+        val dateTimerTitle: TextView = findViewById(R.id.title_datetimer)
+        dateTimerTitle.setTextColor(Color.parseColor(color))
 
         colorTextsWhite()
     }
