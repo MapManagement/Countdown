@@ -74,22 +74,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             timer.start()
         }
 
-        /* creating navigation between different modes
-        bottom_navigation.setOnNavigationItemSelectedListener{
-            when(it.itemId) {
-                R.id.menu_datetimer -> {
-                    openActivity("datetime")
-                    true
-                }
-                R.id.menu_stop_watch -> {
-                    openActivity("stopwatch")
-                    true
-                }
-                else -> false
-            }
-        }
-        */
-
         // FloatingActionButtons for mode navigation
         val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
@@ -98,7 +82,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         timeFAB.setOnClickListener{ chooseNewDateTime() }
         // opens color picker
         colorFAB.setOnClickListener{ colorPicker() }
-        // expands buttons fo navigation
+
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
