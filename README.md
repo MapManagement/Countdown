@@ -34,4 +34,5 @@ the color as an integer. As a result the user can customize the app as preferred
     - [x] saving time properly if stop watch is stopped
         - [x] using oldSeconds and newSeconds
 - [x] adding toolbar for mode transition
+- [x] added swipe gestures for navigation
 - [ ] clean code D:
