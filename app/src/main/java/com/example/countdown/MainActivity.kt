@@ -1,5 +1,6 @@
 package com.example.countdown
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Context
@@ -295,6 +296,20 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             intent.putExtra("currentColor", currentColor)
             this.finish()
             startActivity(intent)
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(intent, 1803)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
+            println(data?.data)
+            imageView.setImageURI(data?.data)
         }
     }
 
