@@ -54,7 +54,7 @@
             android:visibility="invisible"
 
             app:maxImageSize="30dp"
-            app:backgroundTint="@color/dark_red"
+            app:backgroundTint="@color/red"
             app:fabSize="normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -68,7 +68,7 @@
             android:visibility="invisible"
 
             app:maxImageSize="30dp"
-            app:backgroundTint="@color/darker_red"
+            app:backgroundTint="@color/dark_red"
             app:fabSize="normal"
             app:layout_constraintBottom_toTopOf="@id/floating_point_time"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -82,7 +82,7 @@
             android:visibility="invisible"
 
             app:maxImageSize="30dp"
-            app:backgroundTint="@color/darkest_red"
+            app:backgroundTint="@color/darker_red"
             app:fabSize="normal"
             app:layout_constraintBottom_toTopOf="@id/floating_point_color"
             app:layout_constraintEnd_toEndOf="parent"/>
