@@ -14,11 +14,13 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.TextView
+import android.widget.Toast
 import kotlin.math.abs
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -78,11 +80,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         // FloatingActionButtons for mode navigation
         val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+        val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
 
         // sets new date time
         timeFAB.setOnClickListener{ chooseNewDateTime() }
         // opens color picker
         colorFAB.setOnClickListener{ colorPicker() }
+        // open image picker (gallery)
+        imageFAB.setOnClickListener { openGallery() }
 
     }
 
@@ -111,6 +116,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 else if (abs(distanceFloatY) > 300) {
                     val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
                     val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+                    val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
 
                     if (y_end > y_start) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
@@ -118,6 +124,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                         timeFAB.visibility = View.INVISIBLE
                         colorFAB.startAnimation(animation)
                         colorFAB.visibility = View.INVISIBLE
+                        imageFAB.startAnimation(animation)
+                        imageFAB.visibility = View.INVISIBLE
                     }
                     else if (y_end < y_start) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
@@ -125,6 +133,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                         timeFAB.visibility = View.VISIBLE
                         colorFAB.startAnimation(animation)
                         colorFAB.visibility = View.VISIBLE
+                        imageFAB.startAnimation(animation)
+                        imageFAB.visibility = View.VISIBLE
                     }
                 }
             }
@@ -283,6 +293,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         timeFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color))
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
         colorFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 75)
+        val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
+        imageFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 150)
         val dateTimerTitle: TextView = findViewById(R.id.title_datetimer)
         dateTimerTitle.setTextColor(Color.parseColor(color))
 
@@ -308,8 +320,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
-            println(data?.data)
-            imageView.setImageURI(data?.data)
+            try {
+                imageView.setImageURI(data?.data)
+            }
+            catch (e: Exception) {
+                Toast.makeText(this,"Unexpected Error occured!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

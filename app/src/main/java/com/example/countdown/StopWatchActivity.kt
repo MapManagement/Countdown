@@ -1,5 +1,6 @@
 package com.example.countdown
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -11,10 +12,12 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import kotlinx.android.synthetic.main.activity_main.*
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -62,6 +65,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
         val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+        val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
 
         // starts or continues stop watch
         startFAB.setOnClickListener {
@@ -109,6 +113,9 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         colorFAB.setOnClickListener {
             colorPicker()
         }
+
+        // opens image picker (gallery)
+        imageFAB.setOnClickListener { openGallery() }
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
@@ -137,6 +144,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
                     val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
                     val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
                     val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+                    val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
 
                     if (y_end > y_start) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
@@ -146,6 +154,8 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
                         resetFAB.visibility = View.INVISIBLE
                         colorFAB.startAnimation(animation)
                         colorFAB.visibility = View.INVISIBLE
+                        imageFAB.startAnimation(animation)
+                        imageFAB.visibility = View.INVISIBLE
                     }
                     else if (y_end < y_start) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
@@ -155,6 +165,8 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
                         resetFAB.visibility = View.VISIBLE
                         colorFAB.startAnimation(animation)
                         colorFAB.visibility = View.VISIBLE
+                        imageFAB.startAnimation(animation)
+                        imageFAB.visibility = View.VISIBLE
                     }
                 }
             }
@@ -300,6 +312,8 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         resetFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 75)
         val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
         colorFAB.backgroundTintList= ColorStateList.valueOf(Color.parseColor(color) + 150)
+        val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
+        imageFAB.backgroundTintList=ColorStateList.valueOf(Color.parseColor(color) + 225)
         val stopWatchTitle: TextView = findViewById(R.id.title_stopwatch)
         stopWatchTitle.setTextColor(Color.parseColor(color))
 
@@ -313,6 +327,24 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
             intent.putExtra("currentColor", currentColor)
             this.finish()
             startActivity(intent)
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(intent, 1803)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
+            try {
+                imageView.setImageURI(data?.data)
+            }
+            catch (e: Exception) {
+                Toast.makeText(this,"Unexpected Error occured!",Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
