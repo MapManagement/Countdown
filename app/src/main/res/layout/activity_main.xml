@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_margin="16dp"
-            android:src="@android:drawable/ic_menu_my_calendar"
+            android:src="@drawable/calendar_icon"
             android:visibility="invisible"
 
             app:maxImageSize="30dp"
@@ -64,13 +64,27 @@
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_margin="16dp"
-            android:src="@android:drawable/ic_menu_edit"
+            android:src="@drawable/coloring_icon"
             android:visibility="invisible"
 
             app:maxImageSize="30dp"
             app:backgroundTint="@color/darker_red"
             app:fabSize="normal"
             app:layout_constraintBottom_toTopOf="@id/floating_point_time"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_point_image"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/image_background_icon"
+            android:visibility="invisible"
+
+            app:maxImageSize="30dp"
+            app:backgroundTint="@color/darkest_red"
+            app:fabSize="normal"
+            app:layout_constraintBottom_toTopOf="@id/floating_point_color"
             app:layout_constraintEnd_toEndOf="parent"/>
 
 
