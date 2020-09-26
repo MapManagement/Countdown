@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import kotlin.math.abs
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import kotlinx.android.synthetic.main.activity_main.*
@@ -118,7 +119,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
                     val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
 
-                    if (y_end > y_start) {
+                    if (y_end > y_start && timeFAB.isVisible) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
                         timeFAB.startAnimation(animation)
                         timeFAB.visibility = View.INVISIBLE
@@ -127,7 +128,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                         imageFAB.startAnimation(animation)
                         imageFAB.visibility = View.INVISIBLE
                     }
-                    else if (y_end < y_start) {
+                    else if (y_end < y_start && !timeFAB.isVisible) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
                         timeFAB.startAnimation(animation)
                         timeFAB.visibility = View.VISIBLE
