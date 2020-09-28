@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.view.GestureDetector
@@ -14,6 +15,7 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
@@ -53,6 +55,9 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         isStopped = sharedPref.getBoolean("wasStopped", true)
         oldSeconds = sharedPref.getInt("oldSeconds", 0)
         if (!isStopped) { startedAt = sharedPref.getString("startedAt", "") }
+        if (sharedPref.getString("pictureURI", "") != "" && sharedPref.getString("pictureURI", "") != null) {
+            setBackground(sharedPref.getString("pictureURI", "").toString())
+        }
         changeViewColor(intent.getStringExtra("currentColor"))
 
         // stop watch continues
@@ -341,11 +346,20 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
             try {
-                imageView.setImageURI(data?.data)
+                setBackground(data?.data.toString())
             }
             catch (e: Exception) {
                 Toast.makeText(this,"Unexpected Error occured!",Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun setBackground(pictureURI: String) {
+        imageView.setImageURI(pictureURI.toUri())
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("pictureURI", pictureURI)
+            commit()
         }
     }
 
