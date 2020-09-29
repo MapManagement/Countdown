@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import kotlin.math.abs
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
@@ -52,6 +53,9 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         val chosenDateTime = sharedPref.getString("chosenDateTime", "")
+        if (sharedPref.getString("pictureURI", "") != "" && sharedPref.getString("pictureURI", "") != null) {
+            setBackground(sharedPref.getString("pictureURI", "").toString())
+        }
 
         val stopActivityColor = intent.getStringExtra("currentColor")
         if (stopActivityColor == null) {
@@ -313,7 +317,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         startActivityForResult(intent, 1803)
     }
@@ -322,11 +326,21 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
             try {
-                imageView.setImageURI(data?.data)
+                setBackground(data?.data.toString())
             }
             catch (e: Exception) {
-                Toast.makeText(this,"Unexpected Error occured!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this,"Unexpected Error occured!",Toast.LENGTH_SHORT).show()
             }
+        }
+    }
+
+    private fun setBackground(pictureURI: String) {
+        getContentResolver().takePersistableUriPermission(pictureURI.toUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        imageView.setImageURI(pictureURI.toUri())
+        val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
+        with(sharedPref.edit()) {
+            putString("pictureURI", pictureURI)
+            commit()
         }
     }
 
