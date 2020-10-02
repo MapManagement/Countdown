@@ -320,7 +320,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         if ( activityString == "stopwatch") {
             val intent = Intent(this, StopWatchActivity::class.java)
             intent.putExtra("currentColor", currentColor)
-            intent.putExtra("currenPictureUri", currentPictureUri)
+            intent.putExtra("currentPictureUri", currentPictureUri)
             this.finish()
             startActivity(intent)
         }

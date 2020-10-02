@@ -65,7 +65,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         }
         else if (chosenPictureUri != "" && chosenPictureUri != null) {
             currentPictureUri = chosenPictureUri
-         setBackground()
+            setBackground()
         }
 
         changeViewColor(intent.getStringExtra("currentColor"))
@@ -341,7 +341,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         if ( activityString == "datetime") {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("currentColor", currentColor)
-            intent.putExtra("currenPictureUri", currentPictureUri)
+            intent.putExtra("currentPictureUri", currentPictureUri)
             this.finish()
             startActivity(intent)
         }
@@ -357,6 +357,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
             try {
+                currentPictureUri = data?.data.toString()
                 setBackground()
             }
             catch (e: Exception) {
