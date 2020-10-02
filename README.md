@@ -28,8 +28,8 @@ the color as an integer. As a result the user can customize the app as preferred
 - [ ] adding notification
 - [x] customizable layout
     - [ ] more cutomizations
-    - [ ] including custom background pictures
-        - [ ] open_document permission
+    - [x] including custom background pictures
+        - [x] open_document permission
     - [x] customized layout should be used for all modes
 - [x] adding stop watch mode
     - [x] saving time properly if stop watch is stopped
