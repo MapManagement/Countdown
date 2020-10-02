@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     var cal: Calendar = Calendar.getInstance()
     var currentTimer: CountDownTimer? = null
     var currentColor: String? = "#e01c18"
-    var currentPictureUri: String = ""
+    var currentPictureUri: String? = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,8 +54,14 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         val chosenDateTime = sharedPref.getString("chosenDateTime", "")
+
         val chosenPictureUri = sharedPref.getString("pictureURI", "")
-        if (chosenPictureUri != "" && chosenPictureUri != null) {
+        val stopWatchActivityPictureUri = intent.getStringExtra("currentPictureUri")
+        if (stopWatchActivityPictureUri != "" && stopWatchActivityPictureUri != null) {
+            currentPictureUri = stopWatchActivityPictureUri
+            setBackground()
+        }
+        else if (chosenPictureUri != "" && chosenPictureUri != null) {
             currentPictureUri = chosenPictureUri
             setBackground()
         }
@@ -330,6 +336,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
             try {
+                currentPictureUri = data?.data.toString()
                 setBackground()
             }
             catch (e: Exception) {
@@ -339,8 +346,8 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     private fun setBackground() {
-        getContentResolver().takePersistableUriPermission(currentPictureUri.toUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        imageView.setImageURI(currentPictureUri.toUri())
+        currentPictureUri?.toUri()?.let { getContentResolver().takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+        imageView.setImageURI(currentPictureUri?.toUri())
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("pictureURI", currentPictureUri)

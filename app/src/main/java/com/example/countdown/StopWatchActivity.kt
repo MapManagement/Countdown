@@ -37,7 +37,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
     var y_end: Float = 0.0f
 
     var currentColor: String? = "#e01c18"
-    var currentPictureUri: String = ""
+    var currentPictureUri: String? = ""
     var startedAt: String? = ""
     var isStopped: Boolean = true
     var oldSeconds: Int = 0
@@ -56,11 +56,18 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         isStopped = sharedPref.getBoolean("wasStopped", true)
         oldSeconds = sharedPref.getInt("oldSeconds", 0)
         if (!isStopped) { startedAt = sharedPref.getString("startedAt", "") }
-        val chosenPictureUri = intent.getStringExtra("currentPictureUri")
-        if (chosenPictureUri != "" && chosenPictureUri != null) {
-            currentPictureUri = chosenPictureUri
+
+        val mainActivityPictureUri = intent.getStringExtra("currentPictureUri")
+        val chosenPictureUri = sharedPref.getString("pictureUri", "")
+        if (mainActivityPictureUri != "" && mainActivityPictureUri != null) {
+            currentPictureUri = mainActivityPictureUri
             setBackground()
         }
+        else if (chosenPictureUri != "" && chosenPictureUri != null) {
+            currentPictureUri = chosenPictureUri
+         setBackground()
+        }
+
         changeViewColor(intent.getStringExtra("currentColor"))
 
         // stop watch continues
@@ -334,6 +341,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         if ( activityString == "datetime") {
             val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("currentColor", currentColor)
+            intent.putExtra("currenPictureUri", currentPictureUri)
             this.finish()
             startActivity(intent)
         }
@@ -358,8 +366,8 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
     }
 
     private fun setBackground() {
-        getContentResolver().takePersistableUriPermission(currentPictureUri.toUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        imageView.setImageURI(currentPictureUri.toUri())
+        currentPictureUri?.toUri()?.let { getContentResolver().takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION) }
+        imageView.setImageURI(currentPictureUri?.toUri())
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
             putString("pictureURI", currentPictureUri)
