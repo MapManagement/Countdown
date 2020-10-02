@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     var cal: Calendar = Calendar.getInstance()
     var currentTimer: CountDownTimer? = null
     var currentColor: String? = "#e01c18"
+    var currentPictureUri: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +54,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         // getting shared preferences to set primary constructors and customized color
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         val chosenDateTime = sharedPref.getString("chosenDateTime", "")
-        if (sharedPref.getString("pictureURI", "") != "" && sharedPref.getString("pictureURI", "") != null) {
-            setBackground(sharedPref.getString("pictureURI", "").toString())
+        val chosenPictureUri = sharedPref.getString("pictureURI", "")
+        if (chosenPictureUri != "" && chosenPictureUri != null) {
+            currentPictureUri = chosenPictureUri
+            setBackground()
         }
 
         val stopActivityColor = intent.getStringExtra("currentColor")
@@ -311,6 +314,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         if ( activityString == "stopwatch") {
             val intent = Intent(this, StopWatchActivity::class.java)
             intent.putExtra("currentColor", currentColor)
+            intent.putExtra("currenPictureUri", currentPictureUri)
             this.finish()
             startActivity(intent)
         }
@@ -326,7 +330,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
             try {
-                setBackground(data?.data.toString())
+                setBackground()
             }
             catch (e: Exception) {
                 Toast.makeText(this,"Unexpected Error occured!",Toast.LENGTH_SHORT).show()
@@ -334,12 +338,12 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         }
     }
 
-    private fun setBackground(pictureURI: String) {
-        getContentResolver().takePersistableUriPermission(pictureURI.toUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION)
-        imageView.setImageURI(pictureURI.toUri())
+    private fun setBackground() {
+        getContentResolver().takePersistableUriPermission(currentPictureUri.toUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        imageView.setImageURI(currentPictureUri.toUri())
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
-            putString("pictureURI", pictureURI)
+            putString("pictureURI", currentPictureUri)
             commit()
         }
     }

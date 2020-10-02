@@ -37,6 +37,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
     var y_end: Float = 0.0f
 
     var currentColor: String? = "#e01c18"
+    var currentPictureUri: String = ""
     var startedAt: String? = ""
     var isStopped: Boolean = true
     var oldSeconds: Int = 0
@@ -55,8 +56,10 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         isStopped = sharedPref.getBoolean("wasStopped", true)
         oldSeconds = sharedPref.getInt("oldSeconds", 0)
         if (!isStopped) { startedAt = sharedPref.getString("startedAt", "") }
-        if (sharedPref.getString("pictureURI", "") != "" && sharedPref.getString("pictureURI", "") != null) {
-            setBackground(sharedPref.getString("pictureURI", "").toString())
+        val chosenPictureUri = intent.getStringExtra("currentPictureUri")
+        if (chosenPictureUri != "" && chosenPictureUri != null) {
+            currentPictureUri = chosenPictureUri
+            setBackground()
         }
         changeViewColor(intent.getStringExtra("currentColor"))
 
@@ -337,7 +340,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
     }
 
     private fun openGallery() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT)
         intent.type = "image/*"
         startActivityForResult(intent, 1803)
     }
@@ -346,7 +349,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == 1803) {
             try {
-                setBackground(data?.data.toString())
+                setBackground()
             }
             catch (e: Exception) {
                 Toast.makeText(this,"Unexpected Error occured!",Toast.LENGTH_SHORT).show()
@@ -354,11 +357,12 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         }
     }
 
-    private fun setBackground(pictureURI: String) {
-        imageView.setImageURI(pictureURI.toUri())
+    private fun setBackground() {
+        getContentResolver().takePersistableUriPermission(currentPictureUri.toUri(), Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        imageView.setImageURI(currentPictureUri.toUri())
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
-            putString("pictureURI", pictureURI)
+            putString("pictureURI", currentPictureUri)
             commit()
         }
     }
