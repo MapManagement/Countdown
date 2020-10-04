@@ -131,24 +131,23 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                     val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
                     val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
                     val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
+                    val dateTimerTitle: TextView = findViewById(R.id.title_datetimer)
+                    val stopWatchTitle: TextView = findViewById(R.id.title_stopwatch)
+                    val elements = listOf(timeFAB, colorFAB, imageFAB, dateTimerTitle,stopWatchTitle)
 
                     if (y_end > y_start && timeFAB.isVisible) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
-                        timeFAB.startAnimation(animation)
-                        timeFAB.visibility = View.INVISIBLE
-                        colorFAB.startAnimation(animation)
-                        colorFAB.visibility = View.INVISIBLE
-                        imageFAB.startAnimation(animation)
-                        imageFAB.visibility = View.INVISIBLE
+                        for (element in elements) {
+                            element.startAnimation(animation)
+                            element.visibility = View.INVISIBLE
+                        }
                     }
                     else if (y_end < y_start && !timeFAB.isVisible) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
-                        timeFAB.startAnimation(animation)
-                        timeFAB.visibility = View.VISIBLE
-                        colorFAB.startAnimation(animation)
-                        colorFAB.visibility = View.VISIBLE
-                        imageFAB.startAnimation(animation)
-                        imageFAB.visibility = View.VISIBLE
+                        for (element in elements) {
+                            element.startAnimation(animation)
+                            element.visibility = View.VISIBLE
+                        }
                     }
                 }
             }

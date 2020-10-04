@@ -161,28 +161,24 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
                     val resetFAB: FloatingActionButton = findViewById(R.id.floating_point_reset)
                     val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
                     val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
+                    val dateTimerTitle: TextView = findViewById(R.id.title_datetimer)
+                    val stopWatchTitle: TextView = findViewById(R.id.title_stopwatch)
+                    val elements = listOf(startFAB, resetFAB, colorFAB, colorFAB, imageFAB,
+                        dateTimerTitle,stopWatchTitle)
 
                     if (y_end > y_start && startFAB.isVisible) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
-                        startFAB.startAnimation(animation)
-                        startFAB.visibility = View.INVISIBLE
-                        resetFAB.startAnimation(animation)
-                        resetFAB.visibility = View.INVISIBLE
-                        colorFAB.startAnimation(animation)
-                        colorFAB.visibility = View.INVISIBLE
-                        imageFAB.startAnimation(animation)
-                        imageFAB.visibility = View.INVISIBLE
+                        for (element in elements) {
+                            element.startAnimation(animation)
+                            element.visibility = View.INVISIBLE
+                        }
                     }
                     else if (y_end < y_start && !startFAB.isVisible) {
                         val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
-                        startFAB.startAnimation(animation)
-                        startFAB.visibility = View.VISIBLE
-                        resetFAB.startAnimation(animation)
-                        resetFAB.visibility = View.VISIBLE
-                        colorFAB.startAnimation(animation)
-                        colorFAB.visibility = View.VISIBLE
-                        imageFAB.startAnimation(animation)
-                        imageFAB.visibility = View.VISIBLE
+                        for (element in elements) {
+                            element.startAnimation(animation)
+                            element.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
