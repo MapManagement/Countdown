@@ -226,9 +226,6 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
                     hoursText.setTextColor(Color.parseColor(currentColor))
                     if (totalSeconds < 60) {
                         minutesText.setTextColor(Color.parseColor(currentColor))
-                        if (totalSeconds < 1) {
-                            secondsText.setTextColor(Color.parseColor(currentColor))
-                        }
                     }
                 }
             }
