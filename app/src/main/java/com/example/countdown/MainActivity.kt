@@ -252,11 +252,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             }
         }
 
-        yearsText.text = timePeriodArray[0].toString() + " YEARS"
-        daysText.text = timePeriodArray[1].toString() + " DAYS"
-        hoursText.text = timePeriodArray[2].toString() + " HOURS"
-        minutesText.text = timePeriodArray[3].toString() + " MINUTES"
-        secondsText.text = timePeriodArray[4].toString() + " SECONDS"
+        yearsText.text = timePeriodArray[0].toString() + " YRS"
+        daysText.text = timePeriodArray[1].toString() + " DAY"
+        hoursText.text = timePeriodArray[2].toString() + " HRS"
+        minutesText.text = timePeriodArray[3].toString() + " MIn"
+        secondsText.text = timePeriodArray[4].toString() + " SEC"
     }
 
     // colors textviews white

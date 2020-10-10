@@ -1,11 +1,11 @@
 <resources>
     <string name="app_name">Countdown</string>
 
-    <string name="years">YEARS</string>
-    <string name="days">DAYS</string>
-    <string name="hours">HOURS</string>
-    <string name="minutes">MINUTES</string>
-    <string name="seconds">SECONDS</string>
+    <string name="years">YRS</string>
+    <string name="days">DAY</string>
+    <string name="hours">HRS</string>
+    <string name="minutes">MIN</string>
+    <string name="seconds">SEC</string>
 
     <string name="datetimer_title">DATETIMER</string>
     <string name="stopwatch_title">STOPWATCH</string>
