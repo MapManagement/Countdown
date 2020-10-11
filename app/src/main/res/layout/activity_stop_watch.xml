@@ -103,134 +103,139 @@
 
 
     <TextView
+            android:textStyle="bold"
             android:id="@+id/yearsNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="35sp"
+            android:textSize="50sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/yearsText"
-            android:layout_marginTop="120dp"/>
+            android:layout_marginTop="100dp"/>
 
     <TextView
             android:id="@+id/yearsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/years"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toEndOf="@+id/yearsNumber"
-            android:layout_marginTop="120dp"/>
+            android:layout_marginTop="100dp"/>
 
     <TextView
+            android:textStyle="bold"
             android:id="@+id/daysNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="35sp"
+            android:textSize="50sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/yearsNumber"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/daysText"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="120dp"/>
 
     <TextView
             android:id="@+id/daysText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/days"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/yearsNumber"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toEndOf="@+id/daysNumber"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="120dp"/>
 
     <TextView
+            android:textStyle="bold"
             android:id="@+id/hoursNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="35sp"
+            android:textSize="50sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/daysNumber"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/hoursText"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="120dp"/>
 
     <TextView
             android:id="@+id/hoursText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/hours"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/daysNumber"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toEndOf="@+id/hoursNumber"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="120dp"/>
 
     <TextView
+            android:textStyle="bold"
             android:id="@+id/minutesNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="35sp"
+            android:textSize="50sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/hoursNumber"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/minutesText"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="120dp"/>
 
     <TextView
             android:id="@+id/minutesText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/minutes"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/hoursNumber"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toEndOf="@+id/minutesNumber"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="120dp"/>
 
     <TextView
+            android:textStyle="bold"
             android:id="@+id/secondsNumber"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="35sp"
+            android:textSize="50sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/minutesNumber"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/secondsText"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="120dp"/>
 
     <TextView
             android:id="@+id/secondsText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/seconds"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/minutesNumber"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toEndOf="@+id/secondsNumber"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="120dp"/>
 
     <!--
     <com.google.android.material.bottomnavigation.BottomNavigationView

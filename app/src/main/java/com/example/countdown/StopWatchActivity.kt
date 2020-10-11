@@ -216,40 +216,49 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         val totalSeconds = timePeriodArray[5]
         if (totalSeconds < 31536000) {
             yearsText.setTextColor(Color.parseColor(currentColor))
+            yearsNumber.setTextColor(Color.parseColor(currentColor))
             if (totalSeconds < 86400) {
                 daysText.setTextColor(Color.parseColor(currentColor))
+                daysNumber.setTextColor(Color.parseColor(currentColor))
                 if (totalSeconds < 3600) {
                     hoursText.setTextColor(Color.parseColor(currentColor))
+                    hoursNumber.setTextColor(Color.parseColor(currentColor))
                     if (totalSeconds < 60) {
                         minutesText.setTextColor(Color.parseColor(currentColor))
+                        minutesNumber.setTextColor(Color.parseColor(currentColor))
                     }
                 }
             }
         }
 
-        yearsText.text = timePeriodArray[0].toString() + " YRS"
-        daysText.text = timePeriodArray[1].toString() + " DAY"
-        hoursText.text = timePeriodArray[2].toString() + " HRS"
-        minutesText.text = timePeriodArray[3].toString() + " MIN"
-        secondsText.text = timePeriodArray[4].toString() + " SEC"
+        yearsNumber.text = timePeriodArray[0].toString()
+        daysNumber.text = timePeriodArray[1].toString()
+        hoursNumber.text = timePeriodArray[2].toString()
+        minutesNumber.text = timePeriodArray[3].toString()
+        secondsNumber.text = timePeriodArray[4].toString()
     }
 
     // colors textviews white
     private fun colorTextsWhite() {
         yearsText.setTextColor(Color.parseColor("#ffffff"))
+        yearsNumber.setTextColor(Color.parseColor("#ffffff"))
         daysText.setTextColor(Color.parseColor("#ffffff"))
+        daysNumber.setTextColor(Color.parseColor("#ffffff"))
         hoursText.setTextColor(Color.parseColor("#ffffff"))
+        hoursNumber.setTextColor(Color.parseColor("#ffffff"))
         minutesText.setTextColor(Color.parseColor("#ffffff"))
+        minutesNumber.setTextColor(Color.parseColor("#ffffff"))
         secondsText.setTextColor(Color.parseColor("#ffffff"))
+        secondsNumber.setTextColor(Color.parseColor("#ffffff"))
     }
 
     // resets textviews
     private fun resetTexts() {
-        yearsText.text = "0 YEARS"
-        daysText.text = "0 DAYS"
-        hoursText.text = "0 HOURS"
-        minutesText.text = "0 MINUTES"
-        secondsText.text = "0 SECONDS"
+        yearsNumber.text = "00"
+        daysNumber.text = "00"
+        hoursNumber.text = "00"
+        minutesNumber.text = "00"
+        secondsNumber.text = "00"
     }
 
     // turns time between now and start of stop watch into seconds

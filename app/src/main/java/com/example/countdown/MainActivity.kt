@@ -190,7 +190,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
         val timer = object : CountDownTimer((timePeriod[5] * 1000).toLong(), 1000){
             override fun onFinish() {
-                secondsText.text = "0 SECONDS"
+                secondsNumber.text = "00"
                 setTexts(arrayListOf(0,0,0,0,0,0))
             }
 
@@ -238,34 +238,40 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         val totalSeconds = timePeriodArray[5]
         if (totalSeconds < 31536000) {
             yearsText.setTextColor(Color.parseColor(currentColor))
+            yearsNumber.setTextColor(Color.parseColor(currentColor))
             if (totalSeconds < 86400) {
                 daysText.setTextColor(Color.parseColor(currentColor))
+                daysNumber.setTextColor(Color.parseColor(currentColor))
                 if (totalSeconds < 3600) {
                     hoursText.setTextColor(Color.parseColor(currentColor))
+                    hoursNumber.setTextColor(Color.parseColor(currentColor))
                     if (totalSeconds < 60) {
                         minutesText.setTextColor(Color.parseColor(currentColor))
-                        if (totalSeconds < 1) {
-                            secondsText.setTextColor(Color.parseColor(currentColor))
-                        }
+                        minutesNumber.setTextColor(Color.parseColor(currentColor))
                     }
                 }
             }
         }
 
-        yearsText.text = timePeriodArray[0].toString() + " YRS"
-        daysText.text = timePeriodArray[1].toString() + " DAY"
-        hoursText.text = timePeriodArray[2].toString() + " HRS"
-        minutesText.text = timePeriodArray[3].toString() + " MIn"
-        secondsText.text = timePeriodArray[4].toString() + " SEC"
+        yearsNumber.text = timePeriodArray[0].toString()
+        daysNumber.text = timePeriodArray[1].toString()
+        hoursNumber.text = timePeriodArray[2].toString()
+        minutesNumber.text = timePeriodArray[3].toString()
+        secondsNumber.text = timePeriodArray[4].toString()
     }
 
     // colors textviews white
     private fun colorTextsWhite() {
         yearsText.setTextColor(Color.parseColor("#ffffff"))
+        yearsNumber.setTextColor(Color.parseColor("#ffffff"))
         daysText.setTextColor(Color.parseColor("#ffffff"))
+        daysNumber.setTextColor(Color.parseColor("#ffffff"))
         hoursText.setTextColor(Color.parseColor("#ffffff"))
+        hoursNumber.setTextColor(Color.parseColor("#ffffff"))
         minutesText.setTextColor(Color.parseColor("#ffffff"))
+        minutesNumber.setTextColor(Color.parseColor("#ffffff"))
         secondsText.setTextColor(Color.parseColor("#ffffff"))
+        secondsNumber.setTextColor(Color.parseColor("#ffffff"))
     }
 
     // opens up pickers to choose new date and time
