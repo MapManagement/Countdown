@@ -231,11 +231,11 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
             }
         }
 
-        yearsNumber.text = timePeriodArray[0].toString()
-        daysNumber.text = timePeriodArray[1].toString()
-        hoursNumber.text = timePeriodArray[2].toString()
-        minutesNumber.text = timePeriodArray[3].toString()
-        secondsNumber.text = timePeriodArray[4].toString()
+        yearsNumber.text = String.format("%02d", timePeriodArray[0])
+        daysNumber.text = String.format("%02d", timePeriodArray[1])
+        hoursNumber.text = String.format("%02d", timePeriodArray[2])
+        minutesNumber.text = String.format("%02d", timePeriodArray[3])
+        secondsNumber.text = String.format("%02d", timePeriodArray[4])
     }
 
     // colors textviews white

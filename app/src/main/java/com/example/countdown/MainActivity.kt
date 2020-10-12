@@ -15,19 +15,17 @@ import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.TextView
 import android.widget.Toast
-import kotlin.math.abs
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import kotlinx.android.synthetic.main.activity_main.*
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
-import kotlin.collections.ArrayList
+import kotlin.math.abs
 
 
 class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
@@ -253,11 +251,11 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             }
         }
 
-        yearsNumber.text = timePeriodArray[0].toString()
-        daysNumber.text = timePeriodArray[1].toString()
-        hoursNumber.text = timePeriodArray[2].toString()
-        minutesNumber.text = timePeriodArray[3].toString()
-        secondsNumber.text = timePeriodArray[4].toString()
+        yearsNumber.text = String.format("%02d", timePeriodArray[0])
+        daysNumber.text = String.format("%02d", timePeriodArray[1])
+        hoursNumber.text = String.format("%02d", timePeriodArray[2])
+        minutesNumber.text = String.format("%02d", timePeriodArray[3])
+        secondsNumber.text = String.format("%02d", timePeriodArray[4])
     }
 
     // colors textviews white
