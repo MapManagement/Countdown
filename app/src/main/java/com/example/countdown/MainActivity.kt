@@ -326,7 +326,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             intent.putExtra("currentPictureUri", currentPictureUri)
             this.finish()
             startActivity(intent)
-            overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_left)
+            overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right)
         }
     }
 
