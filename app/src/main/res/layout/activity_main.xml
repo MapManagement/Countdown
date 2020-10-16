@@ -94,13 +94,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="50sp"
+            android:textSize="75sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/imageView"
             app:layout_constraintEnd_toStartOf="@+id/yearsText"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="80dp"/>
 
     <TextView
             android:id="@+id/yearsText"
@@ -113,7 +113,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageView"
             app:layout_constraintStart_toEndOf="@+id/yearsNumber"
-            android:layout_marginTop="100dp"/>
+            android:layout_marginTop="80dp"/>
 
     <TextView
             android:textStyle="bold"
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="50sp"
+            android:textSize="75sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/yearsNumber"
@@ -148,7 +148,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="50sp"
+            android:textSize="75sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/daysNumber"
@@ -175,7 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="50sp"
+            android:textSize="75sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/hoursNumber"
@@ -202,7 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/zero"
-            android:textSize="50sp"
+            android:textSize="75sp"
             android:textColor="@color/white"
 
             app:layout_constraintTop_toTopOf="@id/minutesNumber"
