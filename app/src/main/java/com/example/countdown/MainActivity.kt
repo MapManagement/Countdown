@@ -324,7 +324,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             val intent = Intent(this, StopWatchActivity::class.java)
             intent.putExtra("currentColor", currentColor)
             intent.putExtra("currentPictureUri", currentPictureUri)
-            this.finish()
             startActivity(intent)
             overridePendingTransition(R.anim.slide_out_left, R.anim.slide_in_right)
         }
