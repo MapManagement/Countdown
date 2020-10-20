@@ -10,7 +10,7 @@ import java.util.*
 class TimeCalculations {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun getTimePeriod(chosenDateTime: String?): Long {
+    fun getTimePeriod(chosenDateTime: String?): Long {
         val format = "yyyy-MM-dd'T'HH:mm:ss"
         val date = SimpleDateFormat(format, Locale.GERMANY)
         val currentDateTime = Calendar.getInstance().time
@@ -26,7 +26,7 @@ class TimeCalculations {
     }
 
     // converts seconds into different time periods
-    private fun convertSeconds(totalSeconds: Long): ArrayList<Int> {
+    fun convertSeconds(totalSeconds: Long): ArrayList<Int> {
         val years = (totalSeconds / 31536000).toInt()
         val days = ((totalSeconds % 31536000) / 86400).toInt()
         val hours = (((totalSeconds % 31536000) % 86400) / 3600).toInt()

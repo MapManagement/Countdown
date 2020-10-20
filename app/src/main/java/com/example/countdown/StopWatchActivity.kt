@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.pes.androidmaterialcolorpickerdialog.ColorPicker
 import kotlinx.android.synthetic.main.activity_main.*
 import java.lang.Exception
+import java.sql.Time
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -75,7 +76,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
             setStartedAtDateTime()
         }
         val timePeriodInSeconds = getTimePeriod(startedAt, oldSeconds)
-        startTimer(convertSeconds(timePeriodInSeconds), startedAt)
+        startTimer(TimeCalculations().convertSeconds(timePeriodInSeconds), startedAt)
 
         // FloatingActionButtons for mode navigation
         val startFAB: FloatingActionButton = findViewById(R.id.floating_point_start)
@@ -202,7 +203,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         handler.post(object: Runnable {
             override fun run() {
                     if (!isStopped) {
-                        val newTimePeriod = convertSeconds(getTimePeriod(startedAt, oldSeconds))
+                        val newTimePeriod = TimeCalculations().convertSeconds(getTimePeriod(startedAt, oldSeconds))
                         setTexts(newTimePeriod)
                         newSeconds++
                     }
@@ -275,17 +276,6 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
         val currentSeconds: Long = LocalDateTime.parse(formattedCurrentDateTime).toMillis() / 1000
 
         return currentSeconds - startedAtSeconds + extraSeconds
-    }
-
-    // converts seconds into different time periods
-    private fun convertSeconds(totalSeconds: Long): ArrayList<Int> {
-        val years = (totalSeconds / 31536000).toInt()
-        val days = ((totalSeconds % 31536000) / 86400).toInt()
-        val hours = (((totalSeconds % 31536000) % 86400) / 3600).toInt()
-        val minutes = ((((totalSeconds % 31536000) % 86400) % 3600) / 60).toInt()
-        val seconds = ((((totalSeconds % 31536000) % 86400) % 3600) % 60).toInt()
-
-        return arrayListOf(years, days, hours, minutes, seconds, totalSeconds.toInt())
     }
 
     // sets new start of stop watch
