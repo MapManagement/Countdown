@@ -121,39 +121,42 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
                 val distanceFloatX: Float = x_end- x_start
                 val distanceFloatY: Float = y_end - y_start
-
-                if (abs(distanceFloatX) > 300) {
-                    if (x_end <= x_start){
-                        openActivity("stopwatch")
-                    }
-                }
-                else if (abs(distanceFloatY) > 300) {
-                    val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
-                    val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
-                    val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
-                    val dateTimerTitle: TextView = findViewById(R.id.title_datetimer)
-                    val stopWatchTitle: TextView = findViewById(R.id.title_stopwatch)
-                    val elements = listOf(timeFAB, colorFAB, imageFAB, dateTimerTitle,stopWatchTitle)
-
-                    if (y_end > y_start && timeFAB.isVisible) {
-                        val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
-                        for (element in elements) {
-                            element.startAnimation(animation)
-                            element.visibility = View.INVISIBLE
-                        }
-                    }
-                    else if (y_end < y_start && !timeFAB.isVisible) {
-                        val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
-                        for (element in elements) {
-                            element.startAnimation(animation)
-                            element.visibility = View.VISIBLE
-                        }
-                    }
-                }
+                checkSwipeGesture(distanceFloatX, distanceFloatY)
             }
 
         }
         return super.onTouchEvent(event)
+    }
+
+    private fun checkSwipeGesture(distanceFloatX: Float, distanceFloatY: Float) {
+        if (abs(distanceFloatX) > 300) {
+            if (x_end <= x_start){
+                openActivity("stopwatch")
+            }
+        }
+        else if (abs(distanceFloatY) > 300) {
+            val timeFAB: FloatingActionButton = findViewById(R.id.floating_point_time)
+            val colorFAB: FloatingActionButton = findViewById(R.id.floating_point_color)
+            val imageFAB: FloatingActionButton = findViewById(R.id.floating_point_image)
+            val dateTimerTitle: TextView = findViewById(R.id.title_datetimer)
+            val stopWatchTitle: TextView = findViewById(R.id.title_stopwatch)
+            val elements = listOf(timeFAB, colorFAB, imageFAB, dateTimerTitle, stopWatchTitle)
+
+            if (y_end > y_start && timeFAB.isVisible) {
+                val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_out)
+                for (element in elements) {
+                    element.startAnimation(animation)
+                    element.visibility = View.INVISIBLE
+                }
+            }
+            else if (y_end < y_start && !timeFAB.isVisible) {
+                val animation = AnimationUtils.loadAnimation(this, R.anim.fab_fade_in)
+                for (element in elements) {
+                    element.startAnimation(animation)
+                    element.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
     // datepicker dialog to choose new date, initializes timer
@@ -181,7 +184,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
 
     // function for time handling and textview changes
     private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?): CountDownTimer {
-        setTexts(timePeriod)
+        checkTimeSpans(timePeriod)
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
         with(sharedPref.edit()) {
@@ -192,7 +195,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         val timer = object : CountDownTimer((timePeriod[5] * 1000).toLong(), 1000){
             override fun onFinish() {
                 secondsNumber.text = "00"
-                setTexts(arrayListOf(0,0,0,0,0,0))
+                checkTimeSpans(arrayListOf(0,0,0,0,0,0))
             }
 
             override fun onTick(p0: Long) {
@@ -201,7 +204,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 if (newTimePeriod[5] < 0) {
                     onFinish()
                 }
-                setTexts(newTimePeriod)
+                checkTimeSpans(newTimePeriod)
             }
 
         }
@@ -209,7 +212,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     // changes color of textviews if time periods is equal to zero and sets time period
-    private fun setTexts(timePeriodArray: ArrayList<Int>) {
+    private fun checkTimeSpans(timePeriodArray: ArrayList<Int>) {
         val totalSeconds = timePeriodArray[5]
         if (totalSeconds < 31536000) {
             yearsText.setTextColor(Color.parseColor(currentColor))
@@ -227,7 +230,10 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
                 }
             }
         }
+        setViewTexts(timePeriodArray)
+    }
 
+    private fun setViewTexts(timePeriodArray: ArrayList<Int>) {
         yearsNumber.text = String.format("%02d", timePeriodArray[0])
         daysNumber.text = String.format("%02d", timePeriodArray[1])
         hoursNumber.text = String.format("%02d", timePeriodArray[2])
