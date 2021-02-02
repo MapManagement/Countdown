@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     // function for time handling and textview changes
-    private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?): CountDownTimer {
+    private fun startTimer(timePeriod: ArrayList<Long>, chosenDateTime: String?): CountDownTimer {
         checkTimeSpans(timePeriod)
 
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
@@ -199,7 +199,6 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
             }
 
             override fun onTick(p0: Long) {
-                val test = TimeCalculations().convertSeconds(TimeCalculations().getTimePeriod(chosenDateTime))
                 val newTimePeriod = TimeCalculations().convertSeconds(TimeCalculations().getTimePeriod(chosenDateTime))
                 if (newTimePeriod[5] < 0) {
                     onFinish()
@@ -212,7 +211,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
     }
 
     // changes color of textviews if time periods is equal to zero and sets time period
-    private fun checkTimeSpans(timePeriodArray: ArrayList<Int>) {
+    private fun checkTimeSpans(timePeriodArray: ArrayList<Long>) {
         val totalSeconds = timePeriodArray[5]
         if (totalSeconds < 31536000) {
             yearsText.setTextColor(Color.parseColor(currentColor))
@@ -233,7 +232,7 @@ class MainActivity : AppCompatActivity(), GestureDetector.OnGestureListener {
         setViewTexts(timePeriodArray)
     }
 
-    private fun setViewTexts(timePeriodArray: ArrayList<Int>) {
+    private fun setViewTexts(timePeriodArray: ArrayList<Long>) {
         yearsNumber.text = String.format("%02d", timePeriodArray[0])
         daysNumber.text = String.format("%02d", timePeriodArray[1])
         hoursNumber.text = String.format("%02d", timePeriodArray[2])

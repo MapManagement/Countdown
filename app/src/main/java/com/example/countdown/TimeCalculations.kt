@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
+import kotlin.collections.ArrayList
 
 class TimeCalculations {
 
@@ -26,13 +27,14 @@ class TimeCalculations {
     }
 
     // converts seconds into different time periods
-    fun convertSeconds(totalSeconds: Long): ArrayList<Int> {
-        val years = (totalSeconds / 31536000).toInt()
-        val days = ((totalSeconds % 31536000) / 86400).toInt()
-        val hours = (((totalSeconds % 31536000) % 86400) / 3600).toInt()
-        val minutes = ((((totalSeconds % 31536000) % 86400) % 3600) / 60).toInt()
-        val seconds = ((((totalSeconds % 31536000) % 86400) % 3600) % 60).toInt()
+    fun convertSeconds(totalSeconds: Long): ArrayList<Long> {
+        val years = (totalSeconds / 31536000)
+        val days = ((totalSeconds % 31536000) / 86400)
+        val hours = (((totalSeconds % 31536000) % 86400) / 3600)
+        val minutes = ((((totalSeconds % 31536000) % 86400) % 3600) / 60)
+        val seconds = ((((totalSeconds % 31536000) % 86400) % 3600) % 60)
+        println(totalSeconds)
 
-        return arrayListOf(years, days, hours, minutes, seconds, totalSeconds.toInt())
+        return arrayListOf(years, days, hours, minutes, seconds, totalSeconds)
     }
 }

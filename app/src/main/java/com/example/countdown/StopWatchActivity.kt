@@ -189,7 +189,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
     }
 
     // function for time handling and textview changes
-    private fun startTimer(timePeriod: ArrayList<Int>, chosenDateTime: String?) {
+    private fun startTimer(timePeriod: ArrayList<Long>, chosenDateTime: String?) {
         colorTextsWhite()
         setTexts(timePeriod)
         val sharedPref = this.getPreferences(Context.MODE_PRIVATE)
@@ -213,7 +213,7 @@ class StopWatchActivity : AppCompatActivity(), GestureDetector.OnGestureListener
     }
 
     // changes color of textviews if time periods is equal to zero and sets time period
-    private fun setTexts(timePeriodArray: ArrayList<Int>) {
+    private fun setTexts(timePeriodArray: ArrayList<Long>) {
         val totalSeconds = timePeriodArray[5]
         if (totalSeconds < 31536000) {
             yearsText.setTextColor(Color.parseColor(currentColor))
